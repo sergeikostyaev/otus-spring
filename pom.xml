@@ -6,7 +6,11 @@
 
   <groupId>spring.course</groupId>
   <artifactId>otus-spring</artifactId>
+  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>hw01-testP1</module>
+  </modules>
 
   <name>otus-spring</name>
   <!-- FIXME change it to the project's website -->
