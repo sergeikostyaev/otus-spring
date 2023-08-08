@@ -15,6 +15,7 @@ import java.util.List;
 public class FileProcessorImpl implements FileProcessor {
     @Value("${filepath}")
     private String filePath;
+
     public List<String> processFile() throws IOException {
         ClassLoader classLoader = FileProcessorImpl.class.getClassLoader();
 
