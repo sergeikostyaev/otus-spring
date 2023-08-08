@@ -42,4 +42,5 @@ public class AppTest {
 
         Mockito.verify(questionDaoImpl, Mockito.times(1)).getAllQuestions();
     }
+
 }
