@@ -1,0 +1,8 @@
+test:
+  filepath: test.csv
+  questionsToBeProcessed: 5
+
+otus:
+  custom:
+    io-enabled: true
+    locale: ru-RU
