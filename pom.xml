@@ -11,7 +11,6 @@
   <modules>
     <module>hw01-testP1</module>
     <module>hw02-testP2</module>
-    <module>hw03-testP3</module>
   </modules>
 
   <name>otus-spring</name>
