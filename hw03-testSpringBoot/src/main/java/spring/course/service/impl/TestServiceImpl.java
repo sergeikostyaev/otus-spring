@@ -18,14 +18,15 @@ public class TestServiceImpl implements TestService {
     private final QuestionDao questionDaoImpl;
     private final IOService ioServiceImpl;
     private final YMLConfiguration ymlConfiguration;
+    private final LocalizationServiceImpl localizationService;
 
     public void run() {
         List<Question> questions = questionDaoImpl.getAllQuestions().subList(0, Integer.parseInt(ymlConfiguration.getQuestionsToBeProcessed()));
         AtomicInteger correctAnswers = new AtomicInteger();
 
-        ioServiceImpl.print("Welcome to the test.\nPlease, print your name:");
+        ioServiceImpl.print(localizationService.getMessage("greeting"));
         String name = ioServiceImpl.readLine();
-        ioServiceImpl.print("Please, enter your surname:");
+        ioServiceImpl.print(localizationService.getMessage("greeting2"));
         String surname = ioServiceImpl.readLine();
 
         questions.forEach(c -> {
@@ -41,7 +42,7 @@ public class TestServiceImpl implements TestService {
             ioServiceImpl.print("");
         });
 
-        ioServiceImpl.print(String.format("%s %s, your results are:\nCorrect answers - %s \nMistakes - %s"
+        ioServiceImpl.print(String.format(localizationService.getMessage("finalMessage")
                 , name, surname, correctAnswers, Integer.parseInt(ymlConfiguration.getQuestionsToBeProcessed()) - correctAnswers.get()));
     }
 }

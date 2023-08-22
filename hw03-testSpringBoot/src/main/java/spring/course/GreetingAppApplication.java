@@ -3,7 +3,9 @@ package spring.course;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import spring.course.config.YMLConfiguration;
+import spring.course.service.TestService;
 
 
 @EnableConfigurationProperties(YMLConfiguration.class)
@@ -11,7 +13,8 @@ import spring.course.config.YMLConfiguration;
 public class GreetingAppApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GreetingAppApplication.class, args);
+		ApplicationContext context = SpringApplication.run(GreetingAppApplication.class, args);
+		context.getBean(TestService.class).run();
 	}
 
 }
