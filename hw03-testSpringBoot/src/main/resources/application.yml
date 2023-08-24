@@ -1,8 +1,9 @@
-test:
-  filepath: test.csv
-  questionsToBeProcessed: 5
-
 otus:
   custom:
     io-enabled: true
     locale: ru-RU
+
+test:
+  filepath: test_${otus.custom.locale}.csv
+  questionsToBeProcessed: 5
+
