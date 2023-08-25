@@ -1,7 +1,7 @@
 otus:
   custom:
     io-enabled: true
-    locale: ru-RU
+    locale: en-US
 
 test:
   filepath: test_${otus.custom.locale}.csv

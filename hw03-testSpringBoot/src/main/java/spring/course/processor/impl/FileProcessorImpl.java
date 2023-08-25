@@ -18,7 +18,7 @@ import java.util.List;
 public class FileProcessorImpl implements FileProcessor {
 
     private final YMLConfiguration ymlConfiguration;
-
+    @Override
     public List<String> processFile() throws IOException {
         ClassLoader classLoader = FileProcessorImpl.class.getClassLoader();
 

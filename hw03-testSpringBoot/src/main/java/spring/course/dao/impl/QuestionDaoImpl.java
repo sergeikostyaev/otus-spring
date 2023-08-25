@@ -14,7 +14,7 @@ import java.util.List;
 public class QuestionDaoImpl implements QuestionDao {
 
     private final FileProcessor fileProcessorImpl;
-
+    @Override
     public List<Question> getAllQuestions() {
         try {
             return parseLinesToQuestions(fileProcessorImpl.processFile());

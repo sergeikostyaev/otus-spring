@@ -19,7 +19,7 @@ public class TestServiceImpl implements TestService {
     private final IOService ioServiceImpl;
     private final YMLConfiguration ymlConfiguration;
     private final LocalizationServiceImpl localizationService;
-
+    @Override
     public void run() {
         List<Question> questions = questionDaoImpl.getAllQuestions().subList(0, Integer.parseInt(ymlConfiguration.getQuestionsToBeProcessed()));
         AtomicInteger correctAnswers = new AtomicInteger();
