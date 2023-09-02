@@ -1,0 +1,9 @@
+otus:
+  custom:
+    io-enabled: true
+    locale: en-US
+
+test:
+  filepath: test_${otus.custom.locale}.csv
+  questionsToBeProcessed: 5
+
