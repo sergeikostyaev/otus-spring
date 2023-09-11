@@ -11,6 +11,8 @@
   <modules>
     <module>hw01-testP1</module>
     <module>hw02-testP2</module>
+    <module>hw03-testSpringBoot</module>
+      <module>hw04-testSpringShell</module>
   </modules>
 
   <name>otus-spring</name>
