@@ -30,5 +30,4 @@ public class LibraryRepositoryTest {
         Assertions.assertThat(libraryRepository.findBookById(1L).getName()).isEqualTo("updated");
     }
 
-
 }
