@@ -20,7 +20,6 @@ public class LibraryRepositoryImpl implements LibraryRepository {
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
 
-
     @Override
     public void insertBook(String bookName, Long authorId, Long genreId) {
         namedParameterJdbcOperations.update("insert into books (book_name, author_id, genre_id)" +
