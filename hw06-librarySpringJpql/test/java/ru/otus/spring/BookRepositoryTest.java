@@ -42,7 +42,7 @@ public class BookRepositoryTest {
     }
 
     @Test
-    public void whenBookRepositoryDelete_always_correctProcessing() {
+    public void whenBookRepositoryGetByNameAndDelete_always_correctProcessing() {
         bookRepository.save(new Book(null, "updated", new Author(1L,null), new Genre(1L, null), null));
 
         var book = bookRepository.getByName("updated").get(0);
