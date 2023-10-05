@@ -3,24 +3,17 @@ package ru.otus.spring;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import ru.otus.spring.dao.CommentRepository;
-import ru.otus.spring.dao.impl.AuthorRepositoryImpl;
 import ru.otus.spring.dao.impl.BookRepositoryImpl;
-import ru.otus.spring.dao.impl.CommentRepositoryImpl;
-import ru.otus.spring.dao.impl.GenreRepositoryImpl;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 
-import java.io.IOException;
-
 @DataJpaTest
-@Import({BookRepositoryImpl.class, GenreRepositoryImpl.class, AuthorRepositoryImpl.class, CommentRepositoryImpl.class})
-public class RepositoryTest {
+@Import(BookRepositoryImpl.class)
+public class BookRepositoryTest {
     @Autowired
     private BookRepositoryImpl bookRepository;
 
