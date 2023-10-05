@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.dao.AuthorRepository;
-import ru.otus.spring.dao.BookRepository;
+import ru.otus.spring.dao.BookRepositoryd;
 import ru.otus.spring.dao.CommentRepository;
 import ru.otus.spring.dao.GenreRepository;
 import ru.otus.spring.domain.Author;
@@ -21,7 +21,7 @@ import static java.util.Objects.isNull;
 @Service
 @RequiredArgsConstructor
 public class LibraryServiceImpl implements LibraryService {
-    private final BookRepository bookRepository;
+    private final BookRepositoryd bookRepository;
 
     private final GenreRepository genreRepository;
 

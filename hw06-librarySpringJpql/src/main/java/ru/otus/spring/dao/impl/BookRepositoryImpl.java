@@ -3,11 +3,10 @@ package ru.otus.spring.dao.impl;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.dao.BookRepository;
+import ru.otus.spring.dao.BookRepositoryd;
 import ru.otus.spring.domain.Book;
 
 import java.util.List;
-import java.util.Queue;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -15,7 +14,7 @@ import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphTyp
 
 @Repository
 @RequiredArgsConstructor
-public class BookRepositoryImpl implements BookRepository {
+public class BookRepositoryImpl implements BookRepositoryd {
 
     @PersistenceContext
     private final EntityManager entityManager;

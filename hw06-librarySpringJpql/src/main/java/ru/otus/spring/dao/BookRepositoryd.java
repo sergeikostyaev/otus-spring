@@ -4,7 +4,7 @@ import ru.otus.spring.domain.Book;
 
 import java.util.List;
 
-public interface BookRepository {
+public interface BookRepositoryd {
 
     Book getById(long id);
 
