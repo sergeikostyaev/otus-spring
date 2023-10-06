@@ -30,7 +30,7 @@ public class Book {
     @OneToOne(targetEntity = Genre.class, cascade = CascadeType.MERGE)
     private Genre genre;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "book", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "book")
     private List<Comment> comments;
 
 }
