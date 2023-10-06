@@ -23,11 +23,11 @@ public class Book {
     private String name;
 
     @JoinColumn(name = "author_id")
-    @OneToOne(targetEntity = Author.class, cascade = CascadeType.MERGE)
+    @OneToOne(targetEntity = Author.class, cascade = CascadeType.DETACH)
     private Author author;
 
     @JoinColumn(name = "genre_id")
-    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.MERGE)
+    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.DETACH)
     private Genre genre;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "book")
