@@ -19,5 +19,4 @@ public interface LibraryService {
 
     Comment getCommentById(Long id);
 
-    List<Comment> getCommentsByBookId(Long id);
 }
