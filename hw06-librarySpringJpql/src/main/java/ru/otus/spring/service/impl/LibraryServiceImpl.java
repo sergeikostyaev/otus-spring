@@ -11,9 +11,11 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -28,23 +30,21 @@ public class LibraryServiceImpl implements LibraryService {
     private final AuthorRepository authorRepository;
 
     private final CommentRepository commentRepository;
-
-    @Transactional(readOnly = true)
-    public Book getBookById(Long id) {
+    @Override
+    @Transactional
+    public BookDto getBookById(Long id) {
         Book book = bookRepository.getById(id);
-        book.getComments().size();
-        return book;
+        return Book.toDto(book);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Book> getBooksByName(String name) {
+    @Transactional
+    public List<BookDto> getBooksByName(String name) {
         List<Book> books = bookRepository.getByName(name);
-        return books;
+        return books.stream().map(Book::toDto).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Book> getAllBooks() {
         return bookRepository.getAll();
     }
@@ -68,13 +68,11 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    @Transactional
     public Comment getCommentById(Long id){
         return commentRepository.findById(id);
     }
 
     @Override
-    @Transactional
     public List<Comment> getCommentsByBookId(Long id){
         return commentRepository.findAllByBookId(id);
     }

@@ -7,6 +7,8 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.service.LibraryService;
 import ru.otus.spring.service.IoService;
 
@@ -25,10 +27,11 @@ public class ShellController {
 
     @ShellMethod(key = {"getBook", "gb"})
     public void getBookById(long id) {
-        Book book;
+        BookDto book;
         book = libraryService.getBookById(id);
         if (nonNull(book)) {
-            ioService.print(book.toString());
+            ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nComments:", book.getId(), book.getName(), book.getAuthor().getName()));
+            book.getComments().forEach(c -> ioService.print(c.getComment()));
         } else {
             ioService.print(String.format("Book with id '%s' not found%n", id));
         }
@@ -36,10 +39,13 @@ public class ShellController {
 
     @ShellMethod(key = {"getBook", "gbn"})
     public void getBookByName(String name) {
-        List<Book> books;
+        List<BookDto> books;
         books = libraryService.getBooksByName(name);
-        if (nonNull(books)) {
-            ioService.print(books.toString());
+        if (nonNull(books) && !books.isEmpty()) {
+            books.forEach(book -> {
+                ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nComments:", book.getId(), book.getName(), book.getAuthor().getName()));
+                book.getComments().forEach(c -> ioService.print(c.getComment()));
+            });
         } else {
             ioService.print(String.format("Book with name '%s' not found%n", name));
         }
@@ -48,10 +54,12 @@ public class ShellController {
     @ShellMethod(key = {"getAllBooks", "gab"})
     public void getAllBooks() {
         var books = libraryService.getAllBooks();
-        if (nonNull(books)) {
-            ioService.print(books.toString());
+        if (nonNull(books) && !books.isEmpty()) {
+            books.forEach(book -> {
+                ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s", book.getId(), book.getName(), book.getAuthor().getName()));
+            });
         } else {
-            ioService.print(String.format("No books found"));
+            ioService.print("No books found");
         }
     }
 
@@ -78,9 +86,9 @@ public class ShellController {
                 Genre.builder().id(genreId).build(), null));
 
         if (isNull(book)) {
-            ioService.print(String.format("Book with name '%s' is not created", name));
+            ioService.print(String.format("Book with id '%s' is not updated", name));
         } else {
-            ioService.print(String.format("Book with name '%s' is created", name));
+            ioService.print(String.format("Book with id '%s' is updated", name));
         }
     }
 
@@ -96,7 +104,7 @@ public class ShellController {
 
     @ShellMethod(key = {"getCommentsByBookId", "gbc"})
     public void getCommentsByBookId(long id) {
-        List<Comment> comments = libraryService.getCommentsByBookId(id);
+        List<CommentDto> comments = libraryService.getBookById(id).getComments();
         if (isNull(comments)) {
             ioService.print(String.format("Comments with id '%s' not found", id));
         } else {

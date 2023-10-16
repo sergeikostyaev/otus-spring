@@ -1,10 +1,7 @@
 package ru.otus.spring.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "comments")
@@ -12,13 +9,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
+@Builder
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="book_id")
     @ToString.Exclude
     private Book book;
