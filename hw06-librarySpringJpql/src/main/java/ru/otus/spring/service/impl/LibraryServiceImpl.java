@@ -12,6 +12,8 @@ import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.dto.CommentDto;
+import ru.otus.spring.mapper.ModelMapper;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
@@ -30,23 +32,29 @@ public class LibraryServiceImpl implements LibraryService {
     private final AuthorRepository authorRepository;
 
     private final CommentRepository commentRepository;
+
+    private final ModelMapper<Book, BookDto> bookMapper;
+
+    private final ModelMapper<Comment, CommentDto> commentMapper;
+
     @Override
     @Transactional
     public BookDto getBookById(Long id) {
         Book book = bookRepository.getById(id);
-        return Book.toDto(book);
+        return bookMapper.toDto(book);
     }
 
     @Override
     @Transactional
     public List<BookDto> getBooksByName(String name) {
         List<Book> books = bookRepository.getByName(name);
-        return books.stream().map(Book::toDto).collect(Collectors.toList());
+        return books.stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.getAll();
+    @Transactional
+    public List<BookDto> getAllBooks() {
+        return bookRepository.getAll().stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
@@ -57,18 +65,25 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     @Transactional
-    public Book saveBook(Book book) {
+    public BookDto saveBook(Book book) {
         Author author = authorRepository.getById(book.getAuthor().getId());
         Genre genre = genreRepository.findById(book.getGenre().getId());
 
         if (isNull(genre) || isNull(author)) {
             throw new RuntimeException("Invalid genre or author");
         }
-        return bookRepository.save(book);
+        return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
-    public Comment getCommentById(Long id){
-        return commentRepository.findById(id);
+    public CommentDto getCommentById(Long id){
+        return commentMapper.toDto(commentRepository.findById(id));
+    }
+
+    @Override
+    @Transactional
+    public List<CommentDto> getCommentsByBookId(Long id){
+        Book book =  bookRepository.getById(id);
+        return bookMapper.toDto(book).getComments();
     }
 }

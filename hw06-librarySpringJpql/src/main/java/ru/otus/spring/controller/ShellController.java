@@ -71,7 +71,7 @@ public class ShellController {
 
     @ShellMethod(key = {"createBook", "cb"})
     public void createBook(String name, Long authorId, Long genreId) {
-        Book book = libraryService.saveBook(new Book(null, name, Author.builder().id(authorId).build(),
+        BookDto book = libraryService.saveBook(new Book(null, name, Author.builder().id(authorId).build(),
                 Genre.builder().id(genreId).build(), null));
         if (isNull(book)) {
             ioService.print(String.format("Book with name '%s' is not created", name));
@@ -82,7 +82,7 @@ public class ShellController {
 
     @ShellMethod(key = {"updateBook", "ub"})
     public void updateBook(long id, String name, Long authorId, Long genreId) {
-        Book book = libraryService.saveBook(new Book(id, name, Author.builder().id(authorId).build(),
+        BookDto book = libraryService.saveBook(new Book(id, name, Author.builder().id(authorId).build(),
                 Genre.builder().id(genreId).build(), null));
 
         if (isNull(book)) {
@@ -94,7 +94,7 @@ public class ShellController {
 
     @ShellMethod(key = {"getCommentById", "gc"})
     public void getCommentById(long id) {
-        Comment comment = libraryService.getCommentById(id);
+        CommentDto comment = libraryService.getCommentById(id);
         if (isNull(comment)) {
             ioService.print(String.format("Comment with id '%s' not found", id));
         } else {
@@ -104,7 +104,7 @@ public class ShellController {
 
     @ShellMethod(key = {"getCommentsByBookId", "gbc"})
     public void getCommentsByBookId(long id) {
-        List<CommentDto> comments = libraryService.getBookById(id).getComments();
+        List<CommentDto> comments = libraryService.getCommentsByBookId(id);
         if (isNull(comments)) {
             ioService.print(String.format("Comments with id '%s' not found", id));
         } else {

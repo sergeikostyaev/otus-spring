@@ -8,6 +8,4 @@ public interface CommentRepository {
 
     Comment findById(Long id);
 
-    List<Comment> findAllByBookId(Long id);
-
 }

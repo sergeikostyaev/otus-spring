@@ -22,13 +22,4 @@ public class CommentRepositoryImpl implements CommentRepository {
         return entityManager.find(Comment.class, id);
     }
 
-    @Override
-    public List<Comment> findAllByBookId(Long id) {
-        TypedQuery<Comment> query = entityManager.createQuery("select s " +
-                        "from Comment s " +
-                        "where s.book.id = :book_id",
-                Comment.class);
-        query.setParameter("book_id", id);
-        return query.getResultList();
-    }
 }

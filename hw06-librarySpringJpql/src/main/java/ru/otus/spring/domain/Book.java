@@ -8,7 +8,10 @@ import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.dto.GenreDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Entity
 @Table(name = "books")
@@ -39,26 +42,6 @@ public class Book {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "book")
     private List<Comment> comments;
 
-    public static BookDto toDto(Book model) {
-        return BookDto.builder()
-                .id(model.getId())
-                .name(model.getName())
-                .genre(GenreDto.builder()
-                        .id(model.getGenre().getId())
-                        .name(model.getGenre().getName())
-                        .build())
-                .author(AuthorDto.builder()
-                        .id(model.getAuthor().getId())
-                        .name(model.getAuthor().getName())
-                        .build())
-                .comments(model.getComments().stream().map(m -> {
-                    return CommentDto.builder()
-                            .id(m.getId())
-                            .comment(m.getComment())
-                            .build();
-                }).collect(Collectors.toList()))
-                .build();
-    }
 }
 
 
