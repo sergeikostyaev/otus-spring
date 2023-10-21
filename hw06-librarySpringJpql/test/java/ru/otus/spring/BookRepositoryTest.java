@@ -6,52 +6,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import ru.otus.spring.dao.impl.AuthorRepositoryImpl;
 import ru.otus.spring.dao.impl.BookRepositoryImpl;
+import ru.otus.spring.dao.impl.CommentRepositoryImpl;
+import ru.otus.spring.dao.impl.GenreRepositoryImpl;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.mapper.impl.BookMapper;
+import ru.otus.spring.mapper.impl.CommentMapper;
+import ru.otus.spring.service.impl.LibraryServiceImpl;
 
 @DataJpaTest
-@Import(BookRepositoryImpl.class)
+@Import({BookRepositoryImpl.class, LibraryServiceImpl.class, GenreRepositoryImpl.class,
+        CommentRepositoryImpl.class, AuthorRepositoryImpl.class, BookMapper.class, CommentMapper.class})
 public class BookRepositoryTest {
     @Autowired
-    private BookRepositoryImpl bookRepository;
+    private LibraryServiceImpl libraryService;
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Test
-    public void whenBookRepositoryGetById_always_correctProcessing() {
-        Book book = bookRepository.getById(1L);
+    public void whenLibraryServiceGetBookById_always_correctProcessing() {
+        BookDto book = libraryService.getBookById(1L);
 
         Assertions.assertThat(book.getName()).isEqualTo("Жизнь двенадцати цезарей");
     }
 
     @Test
-    public void whenBookRepositoryUpdateBookById_always_correctProcessing() {
-        bookRepository.save(new Book(1L, "updated", new Author(1L,null), new Genre(1L, null), null));
+    public void whenLibraryServiceUpdateBookById_always_correctProcessing() {
+        libraryService.saveBook(new Book(1L, "updated", new Author(1L,null), new Genre(1L, null), null));
 
-        Assertions.assertThat(bookRepository.getById(1L).getName()).isEqualTo("updated");
+        Assertions.assertThat(libraryService.getBookById(1L).getName()).isEqualTo("updated");
     }
 
     @Test
-    public void whenBookRepositoryGetAll_always_correctProcessing() {
-        bookRepository.getAll();
-
-        Assertions.assertThat(bookRepository.getAll().size()).isEqualTo(4);
+    public void whenLibraryServiceGetAllBooks_always_correctProcessing() {
+        Assertions.assertThat(libraryService.getAllBooks().size()).isEqualTo(4);
     }
 
     @Test
-    public void whenBookRepositoryGetByNameAndDelete_always_correctProcessing() {
-        bookRepository.save(new Book(null, "updated", new Author(1L,null), new Genre(1L, null), null));
+    public void whenLibraryServiceGetByNameAndDelete_always_correctProcessing() {
+        libraryService.saveBook(new Book(null, "updated", new Author(1L,null), new Genre(1L, null), null));
 
-        var book = bookRepository.getByName("updated").get(0);
+        var book = libraryService.getBooksByName("updated").get(0);
 
-        Assertions.assertThat(bookRepository.getById(book.getId()).getName()).isEqualTo("updated");
+        Assertions.assertThat(libraryService.getBookById(book.getId()).getName()).isEqualTo("updated");
 
-        bookRepository.remove(book.getId());
+        libraryService.removeBookById(book.getId());
 
-        Assertions.assertThat(bookRepository.getById(book.getId())).isNull();
+        Assertions.assertThat(libraryService.getBookById(book.getId())).isNull();
     }
 
 }

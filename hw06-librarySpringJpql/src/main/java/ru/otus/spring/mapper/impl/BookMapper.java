@@ -14,7 +14,7 @@ import static java.util.Objects.isNull;
 public class BookMapper implements ModelMapper<Book, BookDto> {
     @Override
     public BookDto toDto(Book model) {
-        return BookDto.builder()
+        return isNull(model) ? null : BookDto.builder()
                 .id(model.getId())
                 .name(model.getName())
                 .genre(GenreDto.builder()
