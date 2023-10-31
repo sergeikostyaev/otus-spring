@@ -14,6 +14,8 @@ import ru.otus.spring.mapper.impl.BookMapper;
 import ru.otus.spring.mapper.impl.CommentMapper;
 import ru.otus.spring.service.impl.LibraryServiceImpl;
 
+import java.util.NoSuchElementException;
+
 @DataJpaTest
 @Import({LibraryServiceImpl.class, BookMapper.class, CommentMapper.class})
 public class BookRepositoryTest {
@@ -42,17 +44,17 @@ public class BookRepositoryTest {
         Assertions.assertThat(libraryService.getAllBooks().size()).isEqualTo(4);
     }
 
-//    @Test
-//    public void whenLibraryServiceGetByNameAndDelete_always_correctProcessing() {
-//        libraryService.saveBook(new Book(null, "updated", new Author(1L,null), new Genre(1L, null), null));
-//
-//        var book = libraryService.getBooksByName("updated").get(0);
-//
-//        Assertions.assertThat(libraryService.getBookById(book.getId()).getName()).isEqualTo("updated");
-//
-//        libraryService.removeBookById(book.getId());
-//
-//        Assertions.assertThat(libraryService.getBookById(book.getId())).isNull();
-//    }
+    @Test
+    public void whenLibraryServiceGetByNameAndDelete_always_correctProcessing() {
+        libraryService.saveBook(new Book(null, "updated", new Author(1L,null), new Genre(1L, null), null));
+
+        var book = libraryService.getBooksByName("updated").get(0);
+
+        Assertions.assertThat(libraryService.getBookById(book.getId()).getName()).isEqualTo("updated");
+
+        libraryService.removeBookById(book.getId());
+
+        Assertions.assertThatThrownBy(() -> libraryService.getBookById(book.getId())).isInstanceOf(NoSuchElementException.class);
+    }
 
 }

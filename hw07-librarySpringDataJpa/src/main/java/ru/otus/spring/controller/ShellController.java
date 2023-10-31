@@ -29,7 +29,8 @@ public class ShellController {
         BookDto book;
         book = libraryService.getBookById(id);
         if (nonNull(book)) {
-            ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nComments:", book.getId(), book.getName(), book.getAuthor().getName()));
+            ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nGenre: %s\nComments:",
+                    book.getId(), book.getName(), book.getGenre().getName(), book.getAuthor().getName()));
             book.getComments().forEach(c -> ioService.print(c.getComment()));
         } else {
             ioService.print(String.format("Book with id '%s' not found%n", id));
@@ -42,7 +43,8 @@ public class ShellController {
         books = libraryService.getBooksByName(name);
         if (nonNull(books) && !books.isEmpty()) {
             books.forEach(book -> {
-                ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nComments:", book.getId(), book.getName(), book.getAuthor().getName()));
+                ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nGenre: %s\nComments:",
+                        book.getId(), book.getName(), book.getGenre().getName(), book.getAuthor().getName()));
                 book.getComments().forEach(c -> ioService.print(c.getComment()));
             });
         } else {
@@ -54,9 +56,8 @@ public class ShellController {
     public void getAllBooks() {
         var books = libraryService.getAllBooks();
         if (nonNull(books) && !books.isEmpty()) {
-            books.forEach(book -> {
-                ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s", book.getId(), book.getName(), book.getAuthor().getName()));
-            });
+            books.forEach(book -> ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nGenre: %s\nComments:",
+                    book.getId(), book.getName(), book.getGenre().getName(), book.getAuthor().getName())));
         } else {
             ioService.print("No books found");
         }
@@ -117,7 +118,8 @@ public class ShellController {
 
         if (nonNull(books) && !books.isEmpty()) {
             books.forEach(book -> {
-                ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nComments:", book.getId(), book.getName(), book.getAuthor().getName()));
+                ioService.print(String.format("Id %s:\nName: %s\nAuthor: %s\nGenre: %s\nComments:",
+                        book.getId(), book.getName(), book.getGenre().getName(), book.getAuthor().getName()));
                 book.getComments().forEach(c -> ioService.print(c.getComment()));
             });
         } else {
