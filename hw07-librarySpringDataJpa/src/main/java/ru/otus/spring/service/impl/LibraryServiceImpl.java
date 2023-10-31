@@ -56,13 +56,11 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    @Transactional
     public void removeBookById(Long id) {
         bookRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     public BookDto saveBook(Book book) {
         try {
             authorRepository.findById(book.getAuthor().getId()).get();
