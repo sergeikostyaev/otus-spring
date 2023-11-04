@@ -36,21 +36,21 @@ public class LibraryServiceImpl implements LibraryService {
     private final ModelMapper<Comment, CommentDto> commentMapper;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id).get();
         return bookMapper.toDto(book);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BookDto> getBooksByName(String name) {
         List<Book> books = bookRepository.findByName(name);
         return books.stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BookDto> getAllBooks() {
         return bookRepository.findAll().stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
@@ -86,14 +86,14 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<CommentDto> getCommentsByBookId(Long id) {
         Book book = bookRepository.findById(id).get();
         return bookMapper.toDto(book).getComments();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BookDto> getBooksByAuthorAndGenre(Long authorId, Long genreId) {
         List<Book> books = bookRepository.findByAuthorAndGenre(new Author(authorId, null), new Genre(genreId, null));
         return books.stream().map(bookMapper::toDto).collect(Collectors.toList());
