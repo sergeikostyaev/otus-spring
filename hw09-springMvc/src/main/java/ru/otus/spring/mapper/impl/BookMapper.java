@@ -7,7 +7,9 @@ import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.dto.GenreDto;
 import ru.otus.spring.mapper.ModelMapper;
+
 import java.util.stream.Collectors;
+
 import static java.util.Objects.isNull;
 
 @Component

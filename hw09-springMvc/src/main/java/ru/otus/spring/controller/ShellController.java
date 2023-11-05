@@ -5,12 +5,11 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
-import ru.otus.spring.service.LibraryService;
 import ru.otus.spring.service.IoService;
+import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
 

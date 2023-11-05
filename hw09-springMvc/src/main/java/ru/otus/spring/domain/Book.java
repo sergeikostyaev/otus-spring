@@ -2,16 +2,8 @@ package ru.otus.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ru.otus.spring.dto.AuthorDto;
-import ru.otus.spring.dto.BookDto;
-import ru.otus.spring.dto.CommentDto;
-import ru.otus.spring.dto.GenreDto;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static java.util.Objects.isNull;
 
 @Entity
 @Table(name = "books")
