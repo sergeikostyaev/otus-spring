@@ -30,6 +30,7 @@ public class LibraryController {
     public String bookListPage(Model model) {
         List<BookDto> books = libraryService.getAllBooks();
         model.addAttribute("books", books);
+
         return "list";
     }
 
@@ -37,12 +38,14 @@ public class LibraryController {
     public String bookPage(@RequestParam("id") long id, Model model) {
         BookDto book = libraryService.getBookById(id);
         model.addAttribute("book", book);
+
         return "info";
     }
 
     @PostMapping("/book/delete")
     public String deleteBook(@RequestParam long id) {
         libraryService.removeBookById(id);
+
         return "redirect:/book";
     }
 
@@ -56,7 +59,7 @@ public class LibraryController {
 
         var book = libraryService.saveBook(new Book(id, name, Author.builder().id(authorId).build(),
                 Genre.builder().id(genreId).build(), null));
-        System.out.println(book);
+
         return "redirect:/info?id=" + id;
     }
 
