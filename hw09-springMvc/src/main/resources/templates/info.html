@@ -125,12 +125,12 @@
 
         <div class="row">
             <label for="author-id-input">AuthorID:</label>
-            <input id="author-id-input" type="number" name = "author_id" th:value="*{author.id}"/>
+            <input id="author-id-input" type="number" min = "1" name = "author_id" th:value="*{author.id}"/>
         </div>
 
         <div class="row">
             <label for="genre-id-input">GenreID:</label>
-            <input id="genre-id-input" type="number" name = "genre_id" th:value="*{genre.id}"/>
+            <input id="genre-id-input" type="number" min = "1" name = "genre_id" th:value="*{genre.id}"/>
         </div>
 
         <div class="row">
