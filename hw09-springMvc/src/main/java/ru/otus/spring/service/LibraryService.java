@@ -18,10 +18,9 @@ public interface LibraryService {
 
     BookDto saveBook(Book book);
 
-    CommentDto getCommentById(Long id);
-
     List<CommentDto> getCommentsByBookId(Long id);
 
     Comment saveComment(Comment comment);
+
 
 }

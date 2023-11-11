@@ -3,10 +3,6 @@ package ru.otus.spring.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.dao.AuthorRepository;
-import ru.otus.spring.dao.BookRepositoryd;
-import ru.otus.spring.dao.CommentRepository;
-import ru.otus.spring.dao.GenreRepository;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
@@ -14,18 +10,20 @@ import ru.otus.spring.domain.Genre;
 import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.mapper.ModelMapper;
+import ru.otus.spring.repository.AuthorRepository;
+import ru.otus.spring.repository.BookRepository;
+import ru.otus.spring.repository.CommentRepository;
+import ru.otus.spring.repository.GenreRepository;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
-
 
 @Service
 @RequiredArgsConstructor
 public class LibraryServiceImpl implements LibraryService {
-    private final BookRepositoryd bookRepository;
+    private final BookRepository bookRepository;
 
     private final GenreRepository genreRepository;
 
@@ -38,53 +36,46 @@ public class LibraryServiceImpl implements LibraryService {
     private final ModelMapper<Comment, CommentDto> commentMapper;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public BookDto getBookById(Long id) {
-        Book book = bookRepository.getById(id);
+        Book book = bookRepository.findById(id).get();
         return bookMapper.toDto(book);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BookDto> getBooksByName(String name) {
-        List<Book> books = bookRepository.getByName(name);
+        List<Book> books = bookRepository.findByName(name);
         return books.stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BookDto> getAllBooks() {
-        return bookRepository.getAll().stream().map(bookMapper::toDto).collect(Collectors.toList());
+        return bookRepository.findAll().stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
     public void removeBookById(Long id) {
-        bookRepository.remove(id);
+        bookRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     public BookDto saveBook(Book book) {
-        Author author = authorRepository.getById(book.getAuthor().getId());
-        Genre genre = genreRepository.findById(book.getGenre().getId());
-
-        if (isNull(genre) || isNull(author)) {
-            throw new RuntimeException("Invalid genre or author");
+        try {
+            authorRepository.findById(book.getAuthor().getId()).get();
+            genreRepository.findById(book.getGenre().getId()).get();
+        } catch (Exception e) {
+            throw new RuntimeException("Irrelevant book or genre id");
         }
         return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
-    public CommentDto getCommentById(Long id){
-        return commentMapper.toDto(commentRepository.findById(id));
-    }
-
-    @Override
-    @Transactional
-    public List<CommentDto> getCommentsByBookId(Long id){
-        Book book =  bookRepository.getById(id);
-        return bookMapper.toDto(book).getComments();
+    @Transactional(readOnly = true)
+    public List<CommentDto> getCommentsByBookId(Long id) {
+        List<Comment> comments = commentRepository.findByBookId(id);
+        return comments.stream().map(commentMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

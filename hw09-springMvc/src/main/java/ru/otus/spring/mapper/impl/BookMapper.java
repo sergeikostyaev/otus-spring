@@ -27,10 +27,6 @@ public class BookMapper implements ModelMapper<Book, BookDto> {
                         .id(model.getAuthor().getId())
                         .name(model.getAuthor().getName())
                         .build())
-                .comments(isNull(model.getComments())? null : model.getComments().stream().map(m -> CommentDto.builder()
-                        .id(m.getId())
-                        .comment(m.getComment())
-                        .build()).collect(Collectors.toList()))
                 .build();
     }
 }

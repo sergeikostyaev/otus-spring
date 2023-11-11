@@ -151,7 +151,7 @@
             <td th:text="${book.author.name}"></td>
             <td th:text="${book.genre.name}"></td>
             <td>
-                <a th:href="@{/info(id=${book.id})}" class="info-button">Info</a>
+                <a th:href="@{/book/info(id=${book.id})}" class="info-button">Info</a>
             </td>
             <td>
                 <form id="delete-book" th:method="post" th:action="@{/book/delete(id=${book.id})}"

@@ -11,6 +11,7 @@ import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
@@ -34,10 +35,12 @@ public class LibraryController {
         return "list";
     }
 
-    @GetMapping("/info")
+    @GetMapping("/book/info")
     public String bookPage(@RequestParam("id") long id, Model model) {
         BookDto book = libraryService.getBookById(id);
+        List<CommentDto> comments = libraryService.getCommentsByBookId(id);
         model.addAttribute("book", book);
+        model.addAttribute("comments", comments);
 
         return "info";
     }
@@ -60,7 +63,7 @@ public class LibraryController {
         var book = libraryService.saveBook(new Book(id, name, Author.builder().id(authorId).build(),
                 Genre.builder().id(genreId).build(), null));
 
-        return "redirect:/info?id=" + id;
+        return "redirect:/book/info?id=" + id;
     }
 
     @PostMapping("/book/new")
@@ -81,8 +84,8 @@ public class LibraryController {
             @RequestParam(value = "book_id") long id,
             @RequestParam(value = "comment_text") String text
     ) {
-        libraryService.saveComment(new Comment(null, Book.builder().id(1L).build(), text));
+        libraryService.saveComment(new Comment(null, Book.builder().id(id).build(), text));
 
-        return "redirect:/info?id=" + id;
+        return "redirect:/book/info?id=" + id;
     }
 }
