@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import ru.otus.spring.service.impl.LibraryServiceImpl;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @WebMvcTest
@@ -25,11 +26,13 @@ public class LibraryMvcControllerTest {
     void onGetBookListPage_always_correctProcessing() throws Exception {
         MockHttpServletRequestBuilder request = get("/book");
 
-        mockMvc.perform(request);
+        mockMvc.perform(request).andExpect(status().isOk());
 
         Mockito.verify(libraryService, Mockito.times(1)).getAllBooks();
         Mockito.verify(libraryService, Mockito.times(1)).getAllAuthors();
         Mockito.verify(libraryService, Mockito.times(1)).getAllGenres();
     }
+
+
 
 }
