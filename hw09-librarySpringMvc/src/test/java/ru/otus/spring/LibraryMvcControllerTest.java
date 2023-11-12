@@ -22,12 +22,14 @@ public class LibraryMvcControllerTest {
     private LibraryServiceImpl libraryService;
 
     @Test
-    void t1() throws Exception {
+    void onGetBook_always_correctProcessing() throws Exception {
         MockHttpServletRequestBuilder request = get("/book");
 
         mockMvc.perform(request);
 
         Mockito.verify(libraryService, Mockito.times(1)).getAllBooks();
+        Mockito.verify(libraryService, Mockito.times(1)).getAllAuthors();
+        Mockito.verify(libraryService, Mockito.times(1)).getAllGenres();
     }
 
 
