@@ -2,7 +2,6 @@ package ru.otus.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
@@ -71,14 +70,12 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<CommentDto> getCommentsByBookId(Long id) {
         List<Comment> comments = commentRepository.findByBookId(id);
         return comments.stream().map(commentMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
     public Comment saveComment(Comment comment) {
         return commentRepository.save(comment);
     }
