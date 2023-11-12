@@ -7,8 +7,10 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.dto.AuthorDto;
 import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
+import ru.otus.spring.dto.GenreDto;
 import ru.otus.spring.mapper.ModelMapper;
 import ru.otus.spring.repository.AuthorRepository;
 import ru.otus.spring.repository.BookRepository;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class LibraryServiceImpl implements LibraryService {
+
     private final BookRepository bookRepository;
 
     private final GenreRepository genreRepository;
@@ -35,22 +38,18 @@ public class LibraryServiceImpl implements LibraryService {
 
     private final ModelMapper<Comment, CommentDto> commentMapper;
 
+    private final ModelMapper<Genre, GenreDto> genreMapper;
+
+    private final ModelMapper<Author, AuthorDto> authorMapper;
+
+
     @Override
-    @Transactional(readOnly = true)
     public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id).get();
         return bookMapper.toDto(book);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<BookDto> getBooksByName(String name) {
-        List<Book> books = bookRepository.findByName(name);
-        return books.stream().map(bookMapper::toDto).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<BookDto> getAllBooks() {
         return bookRepository.findAll().stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
@@ -82,5 +81,15 @@ public class LibraryServiceImpl implements LibraryService {
     @Transactional
     public Comment saveComment(Comment comment) {
         return commentRepository.save(comment);
+    }
+
+    @Override
+    public List<GenreDto> getAllGenres() {
+        return genreRepository.findAll().stream().map(genreMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AuthorDto> getAllAuthors() {
+        return authorRepository.findAll().stream().map(authorMapper::toDto).collect(Collectors.toList());
     }
 }

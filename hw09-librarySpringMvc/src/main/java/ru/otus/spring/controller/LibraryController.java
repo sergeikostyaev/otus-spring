@@ -10,8 +10,10 @@ import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
+import ru.otus.spring.dto.AuthorDto;
 import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
+import ru.otus.spring.dto.GenreDto;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
@@ -30,7 +32,12 @@ public class LibraryController {
     @GetMapping("/book")
     public String bookListPage(Model model) {
         List<BookDto> books = libraryService.getAllBooks();
+        List<GenreDto> genres = libraryService.getAllGenres();
+        List<AuthorDto> authors = libraryService.getAllAuthors();
+
         model.addAttribute("books", books);
+        model.addAttribute("genres", genres);
+        model.addAttribute("authors", authors);
 
         return "list";
     }
@@ -39,8 +46,14 @@ public class LibraryController {
     public String bookPage(@RequestParam("id") long id, Model model) {
         BookDto book = libraryService.getBookById(id);
         List<CommentDto> comments = libraryService.getCommentsByBookId(id);
+        List<GenreDto> genres = libraryService.getAllGenres();
+        List<AuthorDto> authors = libraryService.getAllAuthors();
+
+
         model.addAttribute("book", book);
         model.addAttribute("comments", comments);
+        model.addAttribute("genres", genres);
+        model.addAttribute("authors", authors);
 
         return "info";
     }
@@ -60,7 +73,7 @@ public class LibraryController {
             @RequestParam(value = "genre_id") Long genreId
     ) {
 
-        var book = libraryService.saveBook(new Book(id, name, Author.builder().id(authorId).build(),
+        libraryService.saveBook(new Book(id, name, Author.builder().id(authorId).build(),
                 Genre.builder().id(genreId).build(), null));
 
         return "redirect:/book/info?id=" + id;
@@ -73,7 +86,7 @@ public class LibraryController {
             @RequestParam(value = "genre_id") Long genreId
     ) {
 
-        var book = libraryService.saveBook(new Book(null, name, Author.builder().id(authorId).build(),
+        libraryService.saveBook(new Book(null, name, Author.builder().id(authorId).build(),
                 Genre.builder().id(genreId).build(), null));
 
         return "redirect:/book";

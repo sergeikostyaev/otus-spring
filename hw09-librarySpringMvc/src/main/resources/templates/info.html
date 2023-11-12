@@ -13,6 +13,27 @@
             font-family: Arial, sans-serif;
         }
 
+        .add-book-form h3 {
+            margin-bottom: 20px;
+        }
+        .add-book-form .row {
+            margin-bottom: 10px;
+        }
+        .add-book-form .row label {
+            display: inline-block;
+            width: 80px;
+            font-weight: bold;
+        }
+        .add-book-form .row select {
+            width: 332px;
+            padding: 6px;
+        }
+
+        .add-book-form .row input {
+            width: 316px;
+            padding: 6px;
+        }
+
         .book-details {
             border: 1px solid #4682B4;
             width: 400px;
@@ -110,7 +131,7 @@
     <p>Genre: <span th:text="${book.genre.name}"></span></p>
     <br>
 
-    <form id="edit-book" th:method="post" th:action="@{/book/save}" th:object="${book}">
+    <form id="edit-book" class="add-book-form" th:method="post" th:action="@{/book/save}" th:object="${book}">
         <h3>Edit book details:</h3>
 
         <div class="row">
@@ -124,13 +145,29 @@
         </div>
 
         <div class="row">
-            <label for="author-id-input">AuthorID:</label>
-            <input id="author-id-input" type="number" min = "1" name = "author_id" th:value="*{author.id}"/>
+            <label for="author-select">Author: </label>
+            <select id="author-select" name="author_id">
+                <option th:each="author : ${authors}"
+                        th:value="${author.id}"
+                        th:text="${author.name}"
+                        type="number"
+                        name="author_id"
+                        th:selected="${author.id == book.author.id}"
+                ></option>
+            </select>
         </div>
 
         <div class="row">
-            <label for="genre-id-input">GenreID:</label>
-            <input id="genre-id-input" type="number" min = "1" name = "genre_id" th:value="*{genre.id}"/>
+            <label for="genre-select">Genre: </label>
+            <select id="genre-select" name="genre_id">
+                <option th:each="genre : ${genres}"
+                        th:value="${genre.id}"
+                        th:text="${genre.name}"
+                        type="number"
+                        name="genre_id"
+                        th:selected="${genre.id == book.genre.id}"
+                ></option>
+            </select>
         </div>
 
         <div class="row">

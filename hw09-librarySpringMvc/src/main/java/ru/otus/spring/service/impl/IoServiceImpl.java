@@ -13,9 +13,4 @@ public class IoServiceImpl implements IoService {
         System.out.println(s);
     }
 
-    @Override
-    public String read(String s) {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
 }

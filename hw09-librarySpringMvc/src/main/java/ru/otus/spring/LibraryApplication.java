@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class LibraryApplication {
 
     public static void main(String[] args) throws SQLException {
-        //Console.main(args);
+        Console.main(args);
         System.out.println("http://localhost:8080");
         SpringApplication.run(LibraryApplication.class, args);
     }
