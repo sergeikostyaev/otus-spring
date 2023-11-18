@@ -15,6 +15,7 @@
       <module>hw04-testSpringShell</module>
       <module>hw05-librarySpringJdbc</module>
     <module>hw06-librarySpringJpql</module>
+    <module>hw07-librarySpringDataJpa</module>
     <module>hw09-librarySpringMvc</module>
   </modules>
 
