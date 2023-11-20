@@ -13,7 +13,7 @@
     <groupId>spring</groupId>
     <artifactId>hw07-librarySpringDataJpa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>hw06-librarySpringJpql</name>
+    <name>hw07-librarySpringDataJpa</name>
 
     <description>Demo project for Spring Boot</description>
     <properties>
