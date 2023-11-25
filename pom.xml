@@ -17,6 +17,7 @@
     <module>hw06-librarySpringJpql</module>
     <module>hw07-librarySpringDataJpa</module>
     <module>hw09-librarySpringMvc</module>
+      <module>hw10-librarySpringAjax</module>
   </modules>
 
   <name>otus-spring</name>
