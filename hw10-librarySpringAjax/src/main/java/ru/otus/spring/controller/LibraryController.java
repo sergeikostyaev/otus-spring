@@ -27,32 +27,28 @@ public class LibraryController {
 
     @GetMapping("/")
     public String df() {
-        return "redirect:/book";
+        return "redirect:/books";
     }
 
-    @GetMapping("/book")
+    @GetMapping("/books")
     public String bookListPage() {
         return "list";
     }
 
 
-    @GetMapping("/book/info/{id}")
+    @GetMapping("/books/{id}")
     public String bookPage(@PathVariable("id") long id, Model model) {
         BookDto book = libraryService.getBookById(id);
         List<CommentDto> comments = libraryService.getCommentsByBookId(id);
-        List<GenreDto> genres = libraryService.getAllGenres();
-        List<AuthorDto> authors = libraryService.getAllAuthors();
 
 
         model.addAttribute("book", book);
         model.addAttribute("comments", comments);
-        model.addAttribute("genres", genres);
-        model.addAttribute("authors", authors);
 
         return "info";
     }
 
-    @PostMapping("/book/save")
+    @PostMapping("/books/save")
     public String saveBook(
             @RequestParam(value = "id") Long id,
             @RequestParam(value = "name") String name,
@@ -66,7 +62,7 @@ public class LibraryController {
         return "redirect:/book/info?id=" + id;
     }
 
-    @PostMapping("/book/comment")
+    @PostMapping("/books/comment")
     public String saveComment(
             @RequestParam(value = "book_id") long id,
             @RequestParam(value = "comment_text") String text

@@ -147,7 +147,7 @@
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error('Error');
                     }
                     const row = button.closest('tr');
                     row.remove();
@@ -155,7 +155,7 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        function savePerson() {
+        function saveBook() {
             const bookNameInput = document.getElementById("book-name-input")
             const genreId = document.getElementById("genre-select")
             const authorId = document.getElementById("author-select")
@@ -179,9 +179,10 @@
 <body>
 <div class="container">
 
-    <form id="add-book" class="add-book-form" th:method="post" th:action="@{/book/new}">
+    <form id="add-book" class="add-book-form">
         <h3>Add new book</h3>
         <br>
+
         <div class="row">
             <label for="book-name-input">Name:</label>
             <input id="book-name-input" name="name" type="text"/>
@@ -198,7 +199,7 @@
         </div>
 
         <div class="row">
-            <button type="button" class="save-button" onclick="savePerson()">Save</button>
+            <button type="button" class="save-button" onclick="saveBook()">Save</button>
         </div>
     </form>
 
@@ -216,12 +217,14 @@
         <tbody>
         </tbody>
     </table>
+</div>
+</body>
 
-    <script>
-        $(document).ready(function () {
-            $.get('/api/books').done(function (books) {
-                books.forEach(function (book) {
-                    $('#books-table tbody').append(`
+<script>
+    $(document).ready(function () {
+        $.get('/api/books').done(function (books) {
+            books.forEach(function (book) {
+                $('#books-table tbody').append(`
                     <tr>
                         <td>${book.id}</td>
                         <td>${book.name}</td>
@@ -230,7 +233,7 @@
 
                         <td>
                         <div class="row">
-                        <a href="/book/info/${book.id}"><button type="button" class="info-button" >Info</button></a>
+                        <a href="/books/${book.id}"><button type="button" class="info-button" >Info</button></a>
                          </div>
                         </td>
                         <td>
@@ -241,26 +244,23 @@
                     </td>
                     </tr>
                 `)
-                });
-            })
+            });
+        })
 
-            $.get('api/genres', function (data) {
-                const select = $('#genre-select');
-                $.each(data, function (index, genre) {
-                    select.append($('<option>').val(genre.id).text(genre.name));
-                });
-            })
-
-            $.get('api/authors', function (data) {
-                const select = $('#author-select');
-                $.each(data, function (index, author) {
-                    select.append($('<option>').val(author.id).text(author.name));
-                });
-            })
+        $.get('/api/genres', function (genres) {
+            const select = $('#genre-select');
+            $.each(genres, function (index, genre) {
+                select.append($('<option>').val(genre.id).text(genre.name));
+            });
         });
-    </script>
 
-</div>
-</body>
+        $.get('/api/authors', function (authors) {
+            const select = $('#author-select');
+            $.each(authors, function (index, author) {
+                select.append($('<option>').val(author.id).text(author.name));
+            });
+        });
+    });
+</script>
 
 </html>

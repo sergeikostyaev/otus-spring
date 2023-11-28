@@ -76,8 +76,8 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public Comment saveComment(Comment comment) {
-        return commentRepository.save(comment);
+    public CommentDto saveComment(Comment comment) {
+        return commentMapper.toDto(commentRepository.save(comment));
     }
 
     @Override

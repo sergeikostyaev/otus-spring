@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Book</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style type="text/css">
         body {
             background-color: #f2f2f2;
@@ -16,14 +17,17 @@
         .add-book-form h3 {
             margin-bottom: 20px;
         }
+
         .add-book-form .row {
             margin-bottom: 10px;
         }
+
         .add-book-form .row label {
             display: inline-block;
             width: 80px;
             font-weight: bold;
         }
+
         .add-book-form .row select {
             width: 332px;
             padding: 6px;
@@ -120,78 +124,146 @@
         }
 
     </style>
+
+
+    <script>
+        function getBookId() {
+            let currentPageUrl = window.location.href;
+            return currentPageUrl.substr(currentPageUrl.lastIndexOf('/') + 1);
+        }
+
+        function saveBook() {
+            const bookNameInput = document.getElementById("book-name-input")
+            const genreId = document.getElementById("genre-select")
+            const authorId = document.getElementById("author-select")
+            const book = {name: bookNameInput.value, genre: {id: genreId.value}, author: {id: authorId.value}}
+            fetch("api/books", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(book)
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                }
+            })
+        }
+
+    </script>
+
 </head>
 <body>
 <div class="book-details">
     <h2>Book details:</h2>
+    <div class="book-info">
+        <br>
+    </div>
+    <div class="edit-book">
 
-    <p>ID: <span th:text="${book.id}"></span></p>
-    <p>Name: <span th:text="${book.name}"></span></p>
-    <p>Author: <span th:text="${book.author.name}"></span></p>
-    <p>Genre: <span th:text="${book.genre.name}"></span></p>
-    <br>
+        <form id="edit-book" class="add-book-form" th:method="post" th:action="@{/api/books}" th:object="${book}">
+            <h3>Edit book details:</h3>
 
-    <form id="edit-book" class="add-book-form" th:method="post" th:action="@{/book/save}" th:object="${book}">
-        <h3>Edit book details:</h3>
+            <div class="row">
+                <input id="id-input" type="number" readonly="readonly" name="id"/>
+            </div>
 
-        <div class="row">
-            <label for="id-input">ID:</label>
-            <input id="id-input" type="number" readonly="readonly" name = "id" th:value="*{id}"/>
-        </div>
+            <div class="row">
+                <label for="book-name-input">Name:</label>
+                <input id="book-name-input" name="name"/>
+            </div>
 
-        <div class="row">
-            <label for="book-name-input">Name:</label>
-            <input id="book-name-input" name="name" type="text" th:value="*{name}"/>
-        </div>
+            <div class="row">
+                <label for="author-select">Author: </label>
+                <select id="author-select" name="author_id"></select>
+            </div>
 
-        <div class="row">
-            <label for="author-select">Author: </label>
-            <select id="author-select" name="author_id">
-                <option th:each="author : ${authors}"
-                        th:value="${author.id}"
-                        th:text="${author.name}"
-                        type="number"
-                        name="author_id"
-                        th:selected="${author.id == book.author.id}"
-                ></option>
-            </select>
-        </div>
+            <div class="row">
+                <label for="genre-select">Genre: </label>
+                <select id="genre-select" name="genre_id"></select>
+            </div>
 
-        <div class="row">
-            <label for="genre-select">Genre: </label>
-            <select id="genre-select" name="genre_id">
-                <option th:each="genre : ${genres}"
-                        th:value="${genre.id}"
-                        th:text="${genre.name}"
-                        type="number"
-                        name="genre_id"
-                        th:selected="${genre.id == book.genre.id}"
-                ></option>
-            </select>
-        </div>
 
-        <div class="row">
-            <button type="submit">Save</button>
-            <a th:href="@{/}"><button type="button">Cancel</button></a>
-        </div>
-    </form>
-    <br>
+            <div class="row">
+                <button type="submit" onclick="saveBook()">Save</button>
+                <a th:href="@{/}">
+                    <button type="button">Cancel</button>
+                </a>
+            </div>
+        </form>
+        <br>
+    </div>
+    <div class="add-comment">
+
+        <h2>Add comment:</h2>
+        <form id="save-comment" th:method="post" th:action="@{/book/comment}" th:object="${book}">
+            <div class="row" style="display: none;">
+                <input id="book-id" type="number" readonly="readonly" name="book_id" th:value="*{id}"/>
+            </div>
+            <div class="row">
+                <label for="comment-text">Text:</label>
+                <input id="comment-text" type="text" name="comment_text"/>
+            </div>
+            <button type="submit" class="save-comment">Save comment</button>
+        </form>
+    </div>
 
     <h2>Comments:</h2>
-    <form id="save-comment" th:method="post" th:action="@{/book/comment}" th:object="${book}">
-        <div class="row" style="display: none;">
-            <input id="book-id" type="number" readonly="readonly" name="book_id" th:value="*{id}" />
-        </div>
-        <div class="row">
-            <label for="comment-text">Text:</label>
-            <input id="comment-text" type="text" name="comment_text" />
-        </div>
-        <button type="submit" class="save-comment">Save comment</button>
-    </form>
+    <div class="comments"></div>
 
-    <div class="comments">
-        <div class="comment" th:each="comment : ${comments}" th:text="${comment.comment}"></div>
-    </div>
+
 </div>
 </body>
+
+<script>
+    $(document).ready(function () {
+        $.get(`/api/books/${getBookId()}`, function (book) {
+            document.title = book.name;
+            $('.book-info').append(`
+                    <p>ID: <span>${book.id}</span></p>
+                    <p>Name: <span>${book.name}</span></p>
+                    <p>Author: <span>${book.author.name}</span></p>
+                    <p>Genre: <span>${book.genre.name}</span></p><br>
+                `)
+
+            $('#id-input').val(book.id)
+            $('#book-name-input').val(book.name)
+
+            $.get('/api/genres', function (authors) {
+                let genreId = book.genre.id;
+                const select = $('#genre-select');
+                $.each(authors, function (index, genre) {
+                    const option = $('<option>').val(genre.id).text(genre.name);
+                    if (genre.id === genreId) {
+                        option.attr('selected', 'selected');
+                    }
+                    select.append(option);
+                });
+            });
+
+            $.get('/api/authors', function (authors) {
+                let authorId = book.author.id;
+                const select = $('#author-select');
+                $.each(authors, function (index, author) {
+                    const option = $('<option>').val(author.id).text(author.name);
+                    if (author.id === authorId) {
+                        option.attr('selected', 'selected');
+                    }
+                    select.append(option);
+                });
+            });
+
+
+            $.get(`/api/comments/${book.id}`, function (data) {
+                const comments = $('.comments');
+                $.each(data, function (index, comment) {
+                    comments.append('<div class="comment">' + comment.comment + '</div>');
+                });
+            });
+        });
+    });
+
+</script>
+
 </html>

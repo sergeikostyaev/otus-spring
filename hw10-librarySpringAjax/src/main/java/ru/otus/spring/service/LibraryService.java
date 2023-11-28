@@ -20,7 +20,7 @@ public interface LibraryService {
 
     List<CommentDto> getCommentsByBookId(Long id);
 
-    Comment saveComment(Comment comment);
+    CommentDto saveComment(Comment comment);
 
     List<GenreDto> getAllGenres();
 
