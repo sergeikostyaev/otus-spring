@@ -136,14 +136,33 @@
             const bookNameInput = document.getElementById("book-name-input")
             const genreId = document.getElementById("genre-select")
             const authorId = document.getElementById("author-select")
-            const book = {name: bookNameInput.value, genre: {id: genreId.value}, author: {id: authorId.value}}
-            fetch("api/books", {
+            const bookId = document.getElementById("author-select")
+            const book = {id: bookId.value, name: bookNameInput.value, genre: {id: genreId.value}, author: {id: authorId.value}}
+            fetch("/api/books", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(book)
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                }
+            })
+        }
+
+        function saveComment() {
+            const commentText = document.getElementById("comment-text")
+            const bookId = document.getElementById("book-id")
+            const comment = {book: {id: bookId.value}, comment: commentText.value}
+            fetch("/api/comment", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(comment)
             }).then(response => {
                 if (response.ok) {
                     location.reload();
@@ -162,10 +181,10 @@
     </div>
     <div class="edit-book">
 
-        <form id="edit-book" class="add-book-form" th:method="post" th:action="@{/api/books}" th:object="${book}">
+        <form id="edit-book" class="add-book-form">
             <h3>Edit book details:</h3>
 
-            <div class="row">
+            <div class="row", style="display: none;">
                 <input id="id-input" type="number" readonly="readonly" name="id"/>
             </div>
 
@@ -184,9 +203,8 @@
                 <select id="genre-select" name="genre_id"></select>
             </div>
 
-
             <div class="row">
-                <button type="submit" onclick="saveBook()">Save</button>
+                <button type="button" onclick="saveBook()">Save</button>
                 <a th:href="@{/}">
                     <button type="button">Cancel</button>
                 </a>
@@ -197,15 +215,15 @@
     <div class="add-comment">
 
         <h2>Add comment:</h2>
-        <form id="save-comment" th:method="post" th:action="@{/book/comment}" th:object="${book}">
-            <div class="row" style="display: none;">
-                <input id="book-id" type="number" readonly="readonly" name="book_id" th:value="*{id}"/>
+        <form id="save-comment">
+            <div class="row", style="display: none;">
+                <input id="book-id" type="number" readonly="readonly"/>
             </div>
             <div class="row">
                 <label for="comment-text">Text:</label>
                 <input id="comment-text" type="text" name="comment_text"/>
             </div>
-            <button type="submit" class="save-comment">Save comment</button>
+            <button type="button" class="save-comment" onclick="saveComment()">Save comment</button>
         </form>
     </div>
 
@@ -229,6 +247,7 @@
 
             $('#id-input').val(book.id)
             $('#book-name-input').val(book.name)
+            $('#book-id').val(book.id)
 
             $.get('/api/genres', function (authors) {
                 let genreId = book.genre.id;

@@ -35,40 +35,8 @@ public class LibraryController {
         return "list";
     }
 
-
     @GetMapping("/books/{id}")
-    public String bookPage(@PathVariable("id") long id, Model model) {
-        BookDto book = libraryService.getBookById(id);
-        List<CommentDto> comments = libraryService.getCommentsByBookId(id);
-
-
-        model.addAttribute("book", book);
-        model.addAttribute("comments", comments);
-
+    public String bookPage(@PathVariable("id") long id) {
         return "info";
-    }
-
-    @PostMapping("/books/save")
-    public String saveBook(
-            @RequestParam(value = "id") Long id,
-            @RequestParam(value = "name") String name,
-            @RequestParam(value = "author_id") Long authorId,
-            @RequestParam(value = "genre_id") Long genreId
-    ) {
-
-        libraryService.saveBook(new Book(id, name, Author.builder().id(authorId).build(),
-                Genre.builder().id(genreId).build(), null));
-
-        return "redirect:/book/info?id=" + id;
-    }
-
-    @PostMapping("/books/comment")
-    public String saveComment(
-            @RequestParam(value = "book_id") long id,
-            @RequestParam(value = "comment_text") String text
-    ) {
-        libraryService.saveComment(new Comment(null, Book.builder().id(id).build(), text));
-
-        return "redirect:/book/info?id=" + id;
     }
 }

@@ -53,8 +53,8 @@ public class LibraryRestController {
         return libraryService.saveBook(book);
     }
 
-    @PostMapping("/api/books/comment")
-    public CommentDto addBook(@RequestBody Comment comment) {
+    @PostMapping("/api/comment")
+    public CommentDto addComment(@RequestBody Comment comment) {
         return libraryService.saveComment(comment);
     }
 
