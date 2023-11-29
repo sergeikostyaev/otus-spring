@@ -19,7 +19,7 @@ public class LibraryRestController {
     private final LibraryService libraryService;
 
     @GetMapping("/api/books")
-    public List<BookDto> getAllPersons() {
+    public List<BookDto> getAllBooks() {
         return libraryService.getAllBooks();
     }
 
