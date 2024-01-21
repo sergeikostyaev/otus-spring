@@ -32,9 +32,6 @@ public class LibraryServiceImpl implements LibraryService {
 
     private final CommentRepository commentRepository;
 
-
-    private final ModelMapper<Comment, CommentDto> commentMapper;
-
     private final ModelMapper<Genre, GenreDto> genreMapper;
 
     private final ModelMapper<Author, AuthorDto> authorMapper;
