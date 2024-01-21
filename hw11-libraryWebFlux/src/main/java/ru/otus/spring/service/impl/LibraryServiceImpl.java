@@ -77,17 +77,12 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public void removeBookById(Long id) {
-        bookRepository.deleteById(id);
+        bookRepository.deleteById(id).subscribe();
     }
 
     @Override
     public void saveBook(BookDto book) {
-        authorRepository.findById(book.getAuthor().getId())
-                .switchIfEmpty(Mono.error(new RuntimeException("Author with the given ID does not exist")))
-                .flatMap(author -> genreRepository.findById(book.getGenre().getId())
-                        .switchIfEmpty(Mono.error(new RuntimeException("Genre with the given ID does not exist")))
-                        .flatMap(genre -> bookRepository.save(new Book(book.getId(), book.getName(), book.getAuthor().getId(), book.getGenre().getId())))
-                );
+       bookRepository.save(new Book(book.getId(), book.getName(), book.getAuthor().getId(), book.getGenre().getId())).subscribe();
     }
 
     @Override
@@ -97,12 +92,12 @@ public class LibraryServiceImpl implements LibraryService {
                 .comment(g.getComment())
                 .build());
     }
-//
-//    @Override
-//    public CommentDto saveComment(Comment comment) {
-//        return commentMapper.toDto(commentRepository.save(comment));
-//    }
-//
+
+    @Override
+    public void saveComment(Comment comment) {
+        commentRepository.save(comment).subscribe();
+    }
+
     @Override
     public Flux<GenreDto> getAllGenres() {
         return genreRepository.findAll().map(g -> GenreDto.builder()

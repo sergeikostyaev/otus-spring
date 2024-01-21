@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.dto.AuthorDto;
 import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
@@ -51,9 +52,9 @@ public class LibraryRestController {
         libraryService.saveBook(book);
     }
 
-//    @PostMapping("/api/comment")
-//    public CommentDto addComment(@RequestBody Comment comment) {
-//        return libraryService.saveComment(comment);
-//    }
+    @PostMapping("/api/comment")
+    public void addComment(@RequestBody Comment comment) {
+        libraryService.saveComment(comment);
+    }
 
 }

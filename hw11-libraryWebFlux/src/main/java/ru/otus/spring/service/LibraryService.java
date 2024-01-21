@@ -2,6 +2,7 @@ package ru.otus.spring.service;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.dto.AuthorDto;
 import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
@@ -17,9 +18,9 @@ public interface LibraryService {
     void saveBook(BookDto book);
 
     Flux<CommentDto> getCommentsByBookId(Long id);
-//
-//    CommentDto saveComment(Comment comment);
-//
+
+    void saveComment(Comment comment);
+
     Flux<GenreDto> getAllGenres();
 
     Flux<AuthorDto> getAllAuthors();

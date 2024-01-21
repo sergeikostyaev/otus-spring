@@ -24,7 +24,7 @@ create table books(
 DROP TABLE IF EXISTS comments;
 create table comments(
     id bigint auto_increment,
-    book_id bigint references books (id),
+    book_id bigint references books (id) on delete cascade,
     comment varchar(255),
     primary key (id)
 );
