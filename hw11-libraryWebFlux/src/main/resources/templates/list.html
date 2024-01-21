@@ -173,6 +173,25 @@
                 }
             })
         }
+
+        function saveBookWithFE() {
+            const bookNameInput = document.getElementById("book-name-input")
+            const genreId = document.getElementById("genre-select")
+            const authorId = document.getElementById("author-select")
+            const book = {name: bookNameInput.value, genre: {id: genreId.value}, author: {id: authorId.value}}
+            fetch("/api/func/books", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(book)
+            }).then(response => {
+                if(response.ok){
+                    location.reload();
+                }
+            })
+        }
     </script>
 </head>
 
@@ -200,6 +219,7 @@
 
         <div class="row">
             <button type="button" class="save-button" onclick="saveBook()">Save</button>
+            <button type="button" class="save-button" onclick="saveBookWithFE()">Save with functional endpoint</button>
         </div>
     </form>
 
