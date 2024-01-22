@@ -12,8 +12,8 @@ import reactor.core.publisher.Mono;
 public class LibraryController {
 
     @GetMapping("/")
-    public String df() {
-        return "redirect:/books";
+    public Mono<Rendering> df() {
+        return Mono.just(Rendering.view("list").build());
     }
 
     @GetMapping("/books")
