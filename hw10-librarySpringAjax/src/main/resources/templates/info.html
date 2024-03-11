@@ -136,7 +136,7 @@
             const bookNameInput = document.getElementById("book-name-input")
             const genreId = document.getElementById("genre-select")
             const authorId = document.getElementById("author-select")
-            const bookId = document.getElementById("author-select")
+            const bookId = document.getElementById("id-input")
             const book = {id: bookId.value, name: bookNameInput.value, genre: {id: genreId.value}, author: {id: authorId.value}}
             fetch("/api/books", {
                 method: 'POST',
