@@ -10,8 +10,6 @@ import ru.otus.spring.service.LibraryService;
 @RequiredArgsConstructor
 public class LibraryController {
 
-    private final LibraryService libraryService;
-
     @GetMapping("/")
     public String df() {
         return "redirect:/books";

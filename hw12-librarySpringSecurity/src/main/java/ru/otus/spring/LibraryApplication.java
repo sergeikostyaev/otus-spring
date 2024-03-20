@@ -3,6 +3,8 @@ package ru.otus.spring;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+//Admin login/password: admin/password
+//User login/password: user/password
 @SpringBootApplication
 public class LibraryApplication {
 

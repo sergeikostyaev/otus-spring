@@ -11,8 +11,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-//Admin login/password: admin/password
-//User login/password: admin/password
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
