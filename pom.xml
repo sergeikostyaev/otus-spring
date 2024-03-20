@@ -18,7 +18,7 @@
     <module>hw07-librarySpringDataJpa</module>
     <module>hw09-librarySpringMvc</module>
       <module>hw10-librarySpringAjax</module>
-      <module>hw12-librarySpringSecurity</module>
+      <module>hw12-librarySpringWebSecurity</module>
   </modules>
 
   <name>otus-spring</name>
