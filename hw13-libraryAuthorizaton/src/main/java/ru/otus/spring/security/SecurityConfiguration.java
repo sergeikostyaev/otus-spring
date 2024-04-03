@@ -24,8 +24,7 @@ public class SecurityConfiguration {
                 .authorizeExchange(exchanges -> exchanges
                         .anyExchange().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
