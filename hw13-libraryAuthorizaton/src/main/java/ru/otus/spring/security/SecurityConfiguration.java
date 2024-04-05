@@ -26,6 +26,7 @@ public class SecurityConfiguration {
                         .pathMatchers(HttpMethod.GET, "api/**" ).hasAnyRole("USER", "ADMIN")
                         .pathMatchers(HttpMethod.DELETE, "api/**" ).hasRole("ADMIN")
                         .pathMatchers(HttpMethod.POST, "api/books/**" ).hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.POST, "api/func/books/**" ).hasRole("ADMIN")
                         .pathMatchers(HttpMethod.POST, "api/comments/**" ).hasAnyRole("USER", "ADMIN")
 
                 )
