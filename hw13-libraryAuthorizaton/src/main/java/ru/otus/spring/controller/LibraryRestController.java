@@ -1,18 +1,15 @@
 package ru.otus.spring.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.spring.domain.Comment;
-import ru.otus.spring.domain.User;
 import ru.otus.spring.dto.AuthorDto;
 import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.dto.GenreDto;
-import ru.otus.spring.repository.UserRepository;
 import ru.otus.spring.service.LibraryService;
 
 @RestController
