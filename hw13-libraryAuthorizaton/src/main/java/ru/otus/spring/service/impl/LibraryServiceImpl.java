@@ -19,6 +19,8 @@ import ru.otus.spring.repository.CommentRepository;
 import ru.otus.spring.repository.GenreRepository;
 import ru.otus.spring.service.LibraryService;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -41,8 +43,18 @@ public class LibraryServiceImpl implements LibraryService {
     public Mono<BookDto> getBookById(Long id) {
         return bookRepository.findById(id)
                 .flatMap(book -> {
-                    Mono<AuthorDto> authorDtoMono = authorRepository.findById(book.getAuthorId()).map(authorMapper::toDto);
-                    Mono<GenreDto> genreDtoMono = genreRepository.findById(book.getGenreId()).map(genreMapper::toDto);
+
+                    Mono<AuthorDto> authorDtoMono = Optional.ofNullable(book.getAuthorId())
+                            .map(authorId -> authorRepository.findById(authorId).map(authorMapper::toDto)).orElse(Mono.just(AuthorDto.builder()
+                                    .id(null)
+                                    .name(null)
+                                    .build()));
+
+                    Mono<GenreDto> genreDtoMono = Optional.ofNullable(book.getGenreId())
+                            .map(genreId -> genreRepository.findById(genreId).map(genreMapper::toDto)).orElse(Mono.just(GenreDto.builder()
+                                    .id(null)
+                                    .name(null)
+                                    .build()));
 
                     return Mono.zip(authorDtoMono, genreDtoMono)
                             .map(tuple -> BookDto.builder()
@@ -56,10 +68,20 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public Flux<BookDto> getAllBooks() {
-        return bookRepository.findAll().flatMap(book -> {
+        return bookRepository.findAll()
+                .flatMap(book -> {
 
-            Mono<AuthorDto> authorDtoMono = authorRepository.findById(book.getAuthorId()).map(authorMapper::toDto);
-            Mono<GenreDto> genreDtoMono = genreRepository.findById(book.getGenreId()).map(genreMapper::toDto);
+                    Mono<AuthorDto> authorDtoMono = Optional.ofNullable(book.getAuthorId())
+                            .map(authorId -> authorRepository.findById(authorId).map(authorMapper::toDto)).orElse(Mono.just(AuthorDto.builder()
+                                    .id(null)
+                                    .name(null)
+                                    .build()));
+
+                    Mono<GenreDto> genreDtoMono = Optional.ofNullable(book.getGenreId())
+                            .map(genreId -> genreRepository.findById(genreId).map(genreMapper::toDto)).orElse(Mono.just(GenreDto.builder()
+                                    .id(null)
+                                    .name(null)
+                                    .build()));
 
             return Mono.zip(authorDtoMono, genreDtoMono)
                     .map(tuple -> BookDto.builder()
@@ -79,7 +101,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public void saveBook(BookDto book) {
-       bookRepository.save(new Book(book.getId(), book.getName(), book.getAuthor().getId(), book.getGenre().getId())).subscribe();
+        bookRepository.save(new Book(book.getId(), book.getName(), book.getAuthor().getId(), book.getGenre().getId())).subscribe();
     }
 
     @Override

@@ -1,14 +1,18 @@
-package ru.otus.spring.controller;//package ru.otus.spring.controller;
+package ru.otus.spring.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.spring.domain.Comment;
+import ru.otus.spring.domain.User;
 import ru.otus.spring.dto.AuthorDto;
 import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.dto.CommentDto;
 import ru.otus.spring.dto.GenreDto;
+import ru.otus.spring.repository.UserRepository;
 import ru.otus.spring.service.LibraryService;
 
 @RestController
@@ -18,8 +22,9 @@ public class LibraryRestController {
     private final LibraryService libraryService;
 
     @GetMapping("/api/books")
+    @PostFilter("(filterObject.name != 'Книга пользователя' and hasRole('ADMIN') or (filterObject.name != 'Книга администратора' and hasRole('USER')))")
     public Flux<BookDto> getAllBooks() {
-        return libraryService.getAllBooks();
+        return libraryService.getAllBooks().sort((book1, book2) -> Math.toIntExact(book1.getId().longValue() - book2.getId().longValue()));
     }
 
     @GetMapping("/api/books/{id}")
@@ -52,7 +57,7 @@ public class LibraryRestController {
         libraryService.saveBook(book);
     }
 
-    @PostMapping("/api/comment")
+    @PostMapping("/api/comments")
     public void addComment(@RequestBody Comment comment) {
         libraryService.saveComment(comment);
     }

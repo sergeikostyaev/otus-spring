@@ -29,5 +29,15 @@ create table comments(
     primary key (id)
 );
 
+DROP TABLE IF EXISTS users;
+create table users
+(
+    id      bigint auto_increment,
+    user_login varchar(255) unique,
+    user_password varchar(255),
+    user_role varchar(255)
+);
+
+
 
 
