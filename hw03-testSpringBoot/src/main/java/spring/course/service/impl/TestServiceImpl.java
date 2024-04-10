@@ -1,7 +1,6 @@
 package spring.course.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import spring.course.config.YMLConfiguration;
 import spring.course.dao.QuestionDao;

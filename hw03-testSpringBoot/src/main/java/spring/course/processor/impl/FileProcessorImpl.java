@@ -1,7 +1,6 @@
 package spring.course.processor.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import spring.course.config.YMLConfiguration;
 import spring.course.processor.FileProcessor;

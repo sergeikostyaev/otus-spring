@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import spring.course.config.YMLConfiguration;
-import spring.course.service.TestService;
 
 
 @EnableConfigurationProperties(YMLConfiguration.class)

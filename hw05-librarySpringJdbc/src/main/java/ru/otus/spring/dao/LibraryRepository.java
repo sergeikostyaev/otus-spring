@@ -1,8 +1,6 @@
 package ru.otus.spring.dao;
 
-import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.Genre;
 
 public interface LibraryRepository {
 

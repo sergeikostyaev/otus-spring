@@ -1,6 +1,9 @@
 package ru.otus.spring.dao.impl;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.dao.BookRepositoryd;

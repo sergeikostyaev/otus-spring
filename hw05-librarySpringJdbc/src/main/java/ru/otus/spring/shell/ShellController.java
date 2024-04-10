@@ -3,8 +3,6 @@ package ru.otus.spring.shell;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
-import ru.otus.spring.dao.LibraryRepository;
 import ru.otus.spring.service.IoService;
 import ru.otus.spring.service.LibraryService;
 
