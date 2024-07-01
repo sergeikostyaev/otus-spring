@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:8081/test?authSource=admin
+      password: "root"
+      username: "root"

@@ -19,6 +19,7 @@
     <module>hw09-librarySpringMvc</module>
       <module>hw10-librarySpringAjax</module>
       <module>hw13-libraryAuthorizaton</module>
+      <module>hw08-librarySpringDataMongoDB</module>
   </modules>
 
   <name>otus-spring</name>
