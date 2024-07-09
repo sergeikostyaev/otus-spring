@@ -74,10 +74,10 @@ public class JobConfig {
 
 
     @Bean
-    public Job importUserJob(Step transformPersonsStep) {
+    public Job importUserJob(Step migrateBooks) {
         return new JobBuilder(IMPORT_USER_JOB_NAME, jobRepository)
                 .incrementer(new RunIdIncrementer())
-                .flow(transformPersonsStep)
+                .flow(migrateBooks)
                 .end()
                 .build();
     }
