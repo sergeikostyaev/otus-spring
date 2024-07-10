@@ -6,7 +6,6 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @ToString
-@Builder
 public class Comment {
 
     private String comment;

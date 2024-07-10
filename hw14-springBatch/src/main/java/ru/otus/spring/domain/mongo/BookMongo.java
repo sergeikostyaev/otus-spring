@@ -12,7 +12,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @ToString
-@Builder
 @Document(collection = "books")
 public class BookMongo {
 

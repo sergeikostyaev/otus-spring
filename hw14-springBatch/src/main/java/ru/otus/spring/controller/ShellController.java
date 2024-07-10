@@ -32,25 +32,35 @@ public class ShellController {
     }
 
     @ShellMethod(key = {"getAllBooks", "gab"})
-    public void getAllBooks() {
+    public String getAllBooks() {
         var books = bookRepository.findAll();
+
+        StringBuilder result = new StringBuilder();
+
         if (!books.isEmpty()) {
-            books.forEach(book -> System.out.printf("Id %s:\nName: %s\nAuthor: %s\nGenre: %s\nComments:",
-                    book.getId(), book.getName(), book.getGenre().getName(), book.getAuthor().getName()));
+            books.forEach(book -> result.append(String.format("Id %s:\nName: %s\nAuthor: %s\nGenre: %s\nComments: %s\n",
+                    book.getId(), book.getName(), book.getGenre().getName(), book.getAuthor().getName(), book.getComments())));
         } else {
-            System.out.print("No books found");
+            result.append("No books found");
         }
+
+        return result.toString();
     }
 
     @ShellMethod(key = {"getAllBooks", "gabm"})
-    public void getAllMongoBooks() {
+    public String getAllMongoBooks() {
         var books = StreamSupport.stream(bookMongoRepository.findAll().spliterator(), false).toList();
+
+        StringBuilder result = new StringBuilder();
+
         if (!books.isEmpty()) {
-            books.forEach(book -> System.out.printf("Id %s:\nName: %s\nAuthor: %s\nGenre: %s\nComments:",
-                    book.getId(), book.getName(), book.getGenre().getName(), book.getAuthor().getName()));
+            books.forEach(book -> result.append(String.format("Id %s:\nName: %s\nAuthor: %s\nGenre: %s\nComments: %s\n",
+                    book.getId(), book.getName(), book.getGenre().getName(), book.getAuthor().getName(), book.getComments())));
         } else {
-            System.out.print("No books found");
+            result.append("No books found");
         }
+
+        return result.toString();
     }
 
 }

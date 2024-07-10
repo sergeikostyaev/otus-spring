@@ -27,7 +27,7 @@ import ru.otus.spring.mapper.EntityMapper;
 @RequiredArgsConstructor
 public class JobConfig {
     private static final int CHUNK_SIZE = 2;
-    public static final String IMPORT_USER_JOB_NAME = "bookMigrationJob";
+    public static final String MIGRATION_JOB_NAME = "bookMigrationJob";
 
     private final MongoTemplate mongoTemplate;
 
@@ -68,7 +68,7 @@ public class JobConfig {
 
     @Bean
     public Job migrateBooksJob(Step migrateBooks) {
-        return new JobBuilder(IMPORT_USER_JOB_NAME, jobRepository)
+        return new JobBuilder(MIGRATION_JOB_NAME, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .flow(migrateBooks)
                 .end()

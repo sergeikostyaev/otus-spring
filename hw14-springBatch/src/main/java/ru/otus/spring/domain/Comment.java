@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @ToString
-@Builder
 public class Comment {
 
     @Id

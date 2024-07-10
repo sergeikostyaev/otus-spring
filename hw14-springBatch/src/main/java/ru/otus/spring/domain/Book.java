@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @ToString
-@Builder
 public class Book {
 
     @Id
@@ -24,11 +23,11 @@ public class Book {
     private String name;
 
     @JoinColumn(name = "author_id")
-    @OneToOne
+    @ManyToOne
     private Author author;
 
     @JoinColumn(name = "genre_id")
-    @OneToOne
+    @ManyToOne
     private Genre genre;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "book")
