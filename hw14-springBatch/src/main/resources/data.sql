@@ -11,13 +11,13 @@ insert into genres (`genre_name`)
 values ('Драма');
 
 insert into books (`book_name`, genre_id, author_id)
-values ('Жизнь двенадцати цезарей',1,1);
+values ('Жизнь двенадцати цезарей', 1, 1);
 insert into books (`book_name`, genre_id, author_id)
-values ('Белая гвардия',2,3);
+values ('Белая гвардия', 2, 3);
 insert into books (`book_name`, genre_id, author_id)
-values ('Собачье сердце',2,3);
+values ('Собачье сердце', 2, 3);
 insert into books (`book_name`, genre_id, author_id)
-values ('Игрок',2,2);
+values ('Игрок', 2, 2);
 
 insert into comments (book_id, comment)
 values (1, 'Хорошая книга');

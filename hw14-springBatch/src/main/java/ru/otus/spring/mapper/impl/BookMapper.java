@@ -2,28 +2,16 @@ package ru.otus.spring.mapper.impl;
 
 import org.springframework.stereotype.Component;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.dto.AuthorDto;
-import ru.otus.spring.dto.BookDto;
-import ru.otus.spring.dto.GenreDto;
-import ru.otus.spring.mapper.ModelMapper;
-
-import static java.util.Objects.isNull;
+import ru.otus.spring.domain.mongo.Author;
+import ru.otus.spring.domain.mongo.BookMongo;
+import ru.otus.spring.domain.mongo.Genre;
+import ru.otus.spring.mapper.EntityMapper;
 
 @Component
-public class BookMapper implements ModelMapper<Book, BookDto> {
+public class BookMapper implements EntityMapper<Book, BookMongo> {
     @Override
-    public BookDto toDto(Book model) {
-        return isNull(model) ? null : BookDto.builder()
-                .id(model.getId())
-                .name(model.getName())
-                .genre(GenreDto.builder()
-                        .id(model.getGenre().getId())
-                        .name(model.getGenre().getName())
-                        .build())
-                .author(AuthorDto.builder()
-                        .id(model.getAuthor().getId())
-                        .name(model.getAuthor().getName())
-                        .build())
-                .build();
+    public BookMongo map(Book book) {
+        return BookMongo.builder().name(book.getName()).author(Author.builder().name(book.getAuthor().getName()).build())
+                .genre(Genre.builder().name(book.getGenre().getName()).build()).build();
     }
 }

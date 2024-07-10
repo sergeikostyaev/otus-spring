@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -19,9 +18,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 import ru.otus.spring.domain.Book;
-import ru.otus.spring.domain.mongo.Author;
 import ru.otus.spring.domain.mongo.BookMongo;
-import ru.otus.spring.domain.mongo.Genre;
+import ru.otus.spring.mapper.EntityMapper;
 
 
 @Slf4j
@@ -39,7 +37,8 @@ public class JobConfig {
 
     private final PlatformTransactionManager platformTransactionManager;
 
-    @StepScope
+    private final EntityMapper<Book, BookMongo> bookMapper;
+
     @Bean
     public JpaPagingItemReader<Book> reader() {
         JpaPagingItemReader<Book> reader = new JpaPagingItemReader<>();
@@ -51,17 +50,11 @@ public class JobConfig {
         return reader;
     }
 
-    @StepScope
     @Bean
     public ItemProcessor<Book, BookMongo> processor() {
-        return book -> {
-            log.info("Book is migrated: {}", book);
-            return BookMongo.builder().name(book.getName()).author(Author.builder().name(book.getAuthor().getName()).build())
-                    .genre(Genre.builder().name(book.getGenre().getName()).build()).build();
-        };
+        return bookMapper::map;
     }
 
-    @StepScope
     @Bean
     public MongoItemWriter<BookMongo> writer() {
         MongoItemWriter<BookMongo> writer = new MongoItemWriter<>();
@@ -74,7 +67,7 @@ public class JobConfig {
 
 
     @Bean
-    public Job importUserJob(Step migrateBooks) {
+    public Job migrateBooksJob(Step migrateBooks) {
         return new JobBuilder(IMPORT_USER_JOB_NAME, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .flow(migrateBooks)

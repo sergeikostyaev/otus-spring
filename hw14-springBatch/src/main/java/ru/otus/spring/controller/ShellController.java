@@ -20,13 +20,13 @@ public class ShellController {
 
     private final BookRepository bookRepository;
 
-    private final Job importUserJob;
+    private final Job migrateBooksJob;
 
     private final JobLauncher jobLauncher;
 
     @ShellMethod(value = "startMigration", key = "sm")
     public void startMigrationJobWithJobLauncher() throws Exception {
-        JobExecution execution = jobLauncher.run(importUserJob, new JobParametersBuilder()
+        JobExecution execution = jobLauncher.run(migrateBooksJob, new JobParametersBuilder()
                 .toJobParameters());
         System.out.println(execution);
     }
