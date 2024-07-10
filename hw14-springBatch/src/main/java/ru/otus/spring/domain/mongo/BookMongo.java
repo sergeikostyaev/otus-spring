@@ -16,7 +16,7 @@ import java.util.UUID;
 public class BookMongo {
 
     @Id
-    private String id = UUID.randomUUID().toString();
+    private final String id = UUID.randomUUID().toString();
 
     private String name;
 
