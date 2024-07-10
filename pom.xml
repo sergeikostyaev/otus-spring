@@ -20,6 +20,7 @@
       <module>hw10-librarySpringAjax</module>
       <module>hw13-libraryAuthorizaton</module>
       <module>hw08-librarySpringDataMongoDB</module>
+      <module>hw16-actuator</module>
   </modules>
 
   <name>otus-spring</name>
