@@ -15,10 +15,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health, metrics, logfile
   endpoint:
     health:
       show-details: always
+    logfile:
+      enabled: true
   health:
     defaults:
       enabled: false
+logging:
+  level:
+    root: info
+  file:
+    name: ./logs/app.log
