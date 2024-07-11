@@ -1,32 +1,33 @@
 DROP TABLE IF EXISTS authors;
-create table authors(
-    id bigint auto_increment,
-    author_name varchar(8000),
-    primary key (id)
-);
-
 DROP TABLE IF EXISTS genres;
-create table genres(
-    id bigint auto_increment,
-    genre_name varchar(255),
-    primary key (id)
-);
-
 DROP TABLE IF EXISTS books;
-create table books(
-    id bigint auto_increment,
-    book_name varchar(255),
-    author_id bigint references authors (id),
-    genre_id bigint references genres (id),
-    primary key (id)
+DROP TABLE IF EXISTS comments;
+
+CREATE TABLE authors
+(
+    id          BIGSERIAL PRIMARY KEY,
+    author_name VARCHAR(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS comments;
-create table comments(
-    id bigint auto_increment,
-    book_id bigint references books (id),
-    comment varchar(255),
-    primary key (id)
+CREATE TABLE genres
+(
+    id         BIGSERIAL PRIMARY KEY,
+    genre_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE books
+(
+    id        BIGSERIAL PRIMARY KEY,
+    book_name VARCHAR(255)                   NOT NULL,
+    author_id BIGINT REFERENCES authors (id) NOT NULL,
+    genre_id  BIGINT REFERENCES genres (id)  NOT NULL
+);
+
+CREATE TABLE comments
+(
+    id      BIGSERIAL PRIMARY KEY,
+    book_id BIGINT REFERENCES books (id) NOT NULL,
+    comment TEXT
 );
 
 

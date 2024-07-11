@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>spring.course</groupId>
@@ -12,20 +12,22 @@
     <module>hw01-testP1</module>
     <module>hw02-testP2</module>
     <module>hw03-testSpringBoot</module>
-      <module>hw04-testSpringShell</module>
-      <module>hw05-librarySpringJdbc</module>
+    <module>hw04-testSpringShell</module>
+    <module>hw05-librarySpringJdbc</module>
     <module>hw06-librarySpringJpql</module>
     <module>hw07-librarySpringDataJpa</module>
+    <module>hw08-librarySpringDataMongoDB</module>
     <module>hw09-librarySpringMvc</module>
-      <module>hw10-librarySpringAjax</module>
-      <module>hw13-libraryAuthorizaton</module>
-      <module>hw08-librarySpringDataMongoDB</module>
+    <module>hw10-librarySpringAjax</module>
+    <module>hw11-libraryWebFlux</module>
+    <module>hw12-librarySpringSecurity</module>
+    <module>hw13-libraryAuthorizaton</module>
+    <module>hw14-springBatch</module>
+    <module>hw16-actuator</module>
     <module>hw17-docker</module>
   </modules>
 
   <name>otus-spring</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

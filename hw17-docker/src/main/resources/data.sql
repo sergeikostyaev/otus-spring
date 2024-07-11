@@ -1,25 +1,14 @@
-insert into authors (`author_name`)
-values ('Светоний');
-insert into authors (`author_name`)
-values ('Достоевский');
-insert into authors (`author_name`)
-values ('Булгаков');
+INSERT INTO authors (author_name) VALUES ('Светоний');
+INSERT INTO authors (author_name) VALUES ('Достоевский');
+INSERT INTO authors (author_name) VALUES ('Булгаков');
 
-insert into genres (`genre_name`)
-values ('Исторические');
-insert into genres (`genre_name`)
-values ('Драма');
+INSERT INTO genres (genre_name) VALUES ('Исторические');
+INSERT INTO genres (genre_name) VALUES ('Драма');
 
-insert into books (`book_name`, genre_id, author_id)
-values ('Жизнь двенадцати цезарей',1,1);
-insert into books (`book_name`, genre_id, author_id)
-values ('Белая гвардия',2,3);
-insert into books (`book_name`, genre_id, author_id)
-values ('Собачье сердце',2,3);
-insert into books (`book_name`, genre_id, author_id)
-values ('Игрок',2,2);
+INSERT INTO books (book_name, genre_id, author_id) VALUES ('Жизнь двенадцати цезарей', 1, 1);
+INSERT INTO books (book_name, genre_id, author_id) VALUES ('Белая гвардия', 2, 3);
+INSERT INTO books (book_name, genre_id, author_id) VALUES ('Собачье сердце', 2, 3);
+INSERT INTO books (book_name, genre_id, author_id) VALUES ('Игрок', 2, 2);
 
-insert into comments (book_id, comment)
-values (1, 'Хорошая книга');
-insert into comments (book_id, comment)
-values (1, 'Отличная книга');
+INSERT INTO comments (book_id, comment) VALUES (1, 'Хорошая книга');
+INSERT INTO comments (book_id, comment) VALUES (1, 'Отличная книга');

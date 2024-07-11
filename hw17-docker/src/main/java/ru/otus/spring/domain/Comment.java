@@ -17,7 +17,7 @@ public class Comment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="book_id")
+    @JoinColumn(name = "book_id")
     @ToString.Exclude
     private Book book;
 
