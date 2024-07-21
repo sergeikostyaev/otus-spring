@@ -25,6 +25,7 @@
     <module>hw14-springBatch</module>
     <module>hw16-actuator</module>
     <module>hw17-docker</module>
+      <module>hw18-project</module>
   </modules>
 
   <name>otus-spring</name>
