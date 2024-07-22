@@ -15,11 +15,7 @@ import ru.otus.spring.webclient.YandexWebClientService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -110,24 +106,6 @@ public class YandexServiceImpl implements YandexService {
 
         String link = "https://market.yandex.ru/product/";
 
-        StringBuilder items = new StringBuilder();
-        order.getItems().forEach(item -> {
-
-            YandexItemRsDto itemInfo = yandexWebClientService.call(item.getOfferId());
-
-            result.append("Бренд: " + itemInfo.getResult().getOfferMappings().get(0).getOffer().getVendor() + "\n");
-            result.append("Тип: " + itemInfo.getResult().getOfferMappings().get(0).getOffer().getCategory() + "\n");
-            result.append("Артикул YandexMarket: " + itemInfo.getResult().getOfferMappings().get(0).getMapping().getMarketModelId() + "\n\n");
-
-            String productId = String.valueOf(itemInfo.getResult().getOfferMappings().get(0).getMapping().getMarketModelId());
-
-
-            result.append("Товар: [" + item.getOfferName() + "](" + link + productId + ")");
-            result.append("\nКоличество: " + item.getCount() + "\n\n");
-
-            savePurchase(itemInfo, item.getCount(), item.getOfferName());
-        });
-
         String country = "";
         String countryDistrict = "";
         String republic = "";
@@ -159,6 +137,26 @@ public class YandexServiceImpl implements YandexService {
             }
         }
 
+        StringBuilder items = new StringBuilder();
+        String finalRepublic = republic;
+        order.getItems().forEach(item -> {
+
+            YandexItemRsDto itemInfo = yandexWebClientService.call(item.getOfferId());
+
+            result.append("Бренд: " + itemInfo.getResult().getOfferMappings().get(0).getOffer().getVendor() + "\n");
+            result.append("Тип: " + itemInfo.getResult().getOfferMappings().get(0).getOffer().getCategory() + "\n");
+            result.append("Артикул YandexMarket: " + itemInfo.getResult().getOfferMappings().get(0).getMapping().getMarketModelId() + "\n\n");
+
+            String productId = String.valueOf(itemInfo.getResult().getOfferMappings().get(0).getMapping().getMarketModelId());
+
+
+            result.append("Товар: [" + item.getOfferName() + "](" + link + productId + ")");
+            result.append("\nКоличество: " + item.getCount() + "\n\n");
+
+            savePurchase(itemInfo, item.getCount(), item.getOfferName(), finalRepublic);
+        });
+
+
         result.append("Страна: " + country + "\n");
         result.append("Округ: " + countryDistrict + "\n");
         result.append("Регион: " + republic + "\n\n");
@@ -168,7 +166,7 @@ public class YandexServiceImpl implements YandexService {
         return result.toString();
     }
 
-    private void savePurchase(YandexItemRsDto itemInfo, Integer count, String name) {
+    private void savePurchase(YandexItemRsDto itemInfo, Integer count, String name, String region) {
         try {
             for (int i = 0; i < count; i++) {
                 purchaseRepository.save(Purchase.builder()
@@ -176,6 +174,7 @@ public class YandexServiceImpl implements YandexService {
                         .marketplaceCode(YANDEX)
                         .date(LocalDate.now())
                         .name(name)
+                        .region(region)
                         .build());
             }
         } catch (Exception e) {
