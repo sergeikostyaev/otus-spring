@@ -15,7 +15,11 @@ import ru.otus.spring.webclient.YandexWebClientService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -121,7 +125,7 @@ public class YandexServiceImpl implements YandexService {
             result.append("Товар: [" + item.getOfferName() + "](" + link + productId + ")");
             result.append("\nКоличество: " + item.getCount() + "\n\n");
 
-            savePurchase(itemInfo, item.getCount());
+            savePurchase(itemInfo, item.getCount(), item.getOfferName());
         });
 
         String country = "";
@@ -164,13 +168,14 @@ public class YandexServiceImpl implements YandexService {
         return result.toString();
     }
 
-    private void savePurchase(YandexItemRsDto itemInfo, Integer count) {
+    private void savePurchase(YandexItemRsDto itemInfo, Integer count, String name) {
         try {
             for (int i = 0; i < count; i++) {
                 purchaseRepository.save(Purchase.builder()
                         .yandexId(String.valueOf(itemInfo.getResult().getOfferMappings().get(0).getMapping().getMarketModelId()))
                         .marketplaceCode(YANDEX)
                         .date(LocalDate.now())
+                        .name(name)
                         .build());
             }
         } catch (Exception e) {
