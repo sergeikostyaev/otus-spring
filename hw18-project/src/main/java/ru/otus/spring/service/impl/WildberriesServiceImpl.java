@@ -179,6 +179,7 @@ public class WildberriesServiceImpl implements WildberriesService {
                 purchaseRepository.save(Purchase.builder()
                         .wildberriesId(item.getNmId())
                         .marketplaceCode(WILDBERRIES)
+                        .name(NAME_MAP.get(Long.valueOf(item.getSupplierArticle())))
                         .date(LocalDate.now())
                         .region(capitalizeFirstLetter(item.getRegionName()))
                         .build());
