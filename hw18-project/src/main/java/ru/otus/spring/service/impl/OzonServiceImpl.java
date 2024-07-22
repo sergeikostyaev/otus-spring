@@ -1,29 +1,29 @@
 package ru.otus.spring.service.impl;
 
 
-import ru.otus.spring.dto.OzonRsDto;
-import ru.otus.spring.service.OzonService;
-import ru.otus.spring.webclient.OzonWebClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.dao.entity.Purchase;
+import ru.otus.spring.dao.repository.PurchaseRepository;
+import ru.otus.spring.dto.OzonRsDto;
+import ru.otus.spring.service.OzonService;
+import ru.otus.spring.webclient.OzonWebClientService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static ru.otus.spring.common.MarketplaceCode.OZON;
 
 @Slf4j
 @Service
@@ -32,6 +32,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class OzonServiceImpl implements OzonService {
 
     private final OzonWebClientService ozonWebClientService;
+
+    private final PurchaseRepository purchaseRepository;
 
     private final AtomicReference<Integer> orderNumber = new AtomicReference<>(1);
 
@@ -58,6 +60,17 @@ public class OzonServiceImpl implements OzonService {
                             messageQueue.add(mapOzonResponseItem(orderNumber.get(), order));
                             orderBuffer.put(order.getPosting_number(), order);
                             orderNumber.getAndSet(orderNumber.get() + 1);
+                            try {
+                                order.getProducts().forEach(product -> purchaseRepository.save(Purchase.builder()
+                                        .ozonId(String.valueOf(product.getSku()))
+                                        .marketplaceCode(OZON)
+                                        .date(LocalDate.now())
+                                        .name(product.getName())
+                                        .region(order.getAnalytics_data().getRegion())
+                                        .build()));
+                            } catch (Exception e) {
+                                log.info("Error saving purchase in OzonService");
+                            }
                         });
             }
 

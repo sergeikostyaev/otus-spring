@@ -3,6 +3,17 @@ server:
 spring:
   application:
     name: "telegram-business-controller-app"
+  datasource:
+    url: jdbc:h2:mem:testdb
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      mode: always
   boot:
     admin:
       client:
@@ -32,6 +43,6 @@ marketplace:
     token: "9064cbe1-0f58-447c-b7e7-81b19dbadaba"
     clientId: "864618"
   website:
-    token: "fpoj54a567fa6f5ew4fq8fq5f"
+    token: "sdgjljgogsjgosdjgosdfsdfsdfsdfpsdifsdfpsdfps"
 
 

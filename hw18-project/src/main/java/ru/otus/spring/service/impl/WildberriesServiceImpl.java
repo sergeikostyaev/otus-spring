@@ -1,28 +1,28 @@
 package ru.otus.spring.service.impl;
 
-import ru.otus.spring.dto.WildberriesRsDto;
-import ru.otus.spring.service.WildberriesService;
-import ru.otus.spring.webclient.WildberriesWebClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.dao.entity.Purchase;
+import ru.otus.spring.dao.repository.PurchaseRepository;
+import ru.otus.spring.dto.WildberriesRsDto;
+import ru.otus.spring.service.WildberriesService;
+import ru.otus.spring.webclient.WildberriesWebClientService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+
+import static ru.otus.spring.common.MarketplaceCode.WILDBERRIES;
 
 @Slf4j
 @Service
@@ -31,6 +31,8 @@ import java.util.stream.Collectors;
 public class WildberriesServiceImpl implements WildberriesService {
 
     private final WildberriesWebClientService wildberriesWebClientService;
+
+    private final PurchaseRepository purchaseRepository;
 
     private final AtomicReference<Integer> orderNumber = new AtomicReference<>(1);
 
@@ -98,6 +100,7 @@ public class WildberriesServiceImpl implements WildberriesService {
                     messageQueue.add(mapWildberriesResponseItem(orderNumber.get(), item));
                     orderBuffer.put(item.getSrid(), item);
                     orderNumber.getAndSet(orderNumber.get() + 1);
+                    savePurchase(item);
                 });
 
             } else {
@@ -168,5 +171,20 @@ public class WildberriesServiceImpl implements WildberriesService {
         char firstLetter = Character.toUpperCase(line.charAt(0));
         String remainingString = line.substring(1);
         return firstLetter + remainingString;
+    }
+
+    private void savePurchase(WildberriesRsDto item) {
+        try {
+            for (int i = 0; i < item.getNumber(); i++) {
+                purchaseRepository.save(Purchase.builder()
+                        .wildberriesId(item.getNmId())
+                        .marketplaceCode(WILDBERRIES)
+                        .date(LocalDate.now())
+                        .region(capitalizeFirstLetter(item.getRegionName()))
+                        .build());
+            }
+        } catch (Exception e) {
+            log.info("Error saving purchase in WildberriesService");
+        }
     }
 }

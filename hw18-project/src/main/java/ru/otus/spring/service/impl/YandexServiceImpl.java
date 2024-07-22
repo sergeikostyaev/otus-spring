@@ -1,27 +1,28 @@
 package ru.otus.spring.service.impl;
 
-import ru.otus.spring.dto.YandexRsDto;
-import ru.otus.spring.service.YandexService;
-import ru.otus.spring.webclient.YandexWebClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.dao.entity.Purchase;
+import ru.otus.spring.dao.repository.PurchaseRepository;
+import ru.otus.spring.dto.YandexItemRsDto;
+import ru.otus.spring.dto.YandexRsDto;
+import ru.otus.spring.service.YandexService;
+import ru.otus.spring.webclient.YandexWebClientService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static ru.otus.spring.common.MarketplaceCode.YANDEX;
 
 @Slf4j
 @Service
@@ -30,6 +31,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class YandexServiceImpl implements YandexService {
 
     private final YandexWebClientService yandexWebClientService;
+
+    private final PurchaseRepository purchaseRepository;
 
     private final AtomicReference<Integer> orderNumber = new AtomicReference<>(1);
 
@@ -54,7 +57,7 @@ public class YandexServiceImpl implements YandexService {
                 orders.stream().filter(order -> !orderBuffer.containsKey(order.getId()))
                         .sorted(Comparator.comparing(item -> LocalDateTime.parse(item.getCreationDate(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))))
                         .forEach(order -> {
-                            messageQueue.add(mapYandexResponseItem(orderNumber.get(), order));
+                            messageQueue.add(mapYandexResponseItemAndSavePurchase(orderNumber.get(), order));
                             orderBuffer.put(order.getId(), order);
                             orderNumber.getAndSet(orderNumber.get() + 1);
                         });
@@ -96,7 +99,7 @@ public class YandexServiceImpl implements YandexService {
         return orderBuffer.size();
     }
 
-    private String mapYandexResponseItem(Integer orderNumber, YandexRsDto.Order order) {
+    private String mapYandexResponseItemAndSavePurchase(Integer orderNumber, YandexRsDto.Order order) {
         StringBuilder result = new StringBuilder(orderNumber + " заказ на YandexMarket от " +
                 order.getCreationDate().substring(0, order.getCreationDate().indexOf(' ')) + "\n");
         result.append("Время: " + order.getCreationDate().substring(order.getCreationDate().indexOf(' '), order.getCreationDate().length()) + "\n\n");
@@ -106,7 +109,7 @@ public class YandexServiceImpl implements YandexService {
         StringBuilder items = new StringBuilder();
         order.getItems().forEach(item -> {
 
-            var itemInfo = yandexWebClientService.call(item.getOfferId());
+            YandexItemRsDto itemInfo = yandexWebClientService.call(item.getOfferId());
 
             result.append("Бренд: " + itemInfo.getResult().getOfferMappings().get(0).getOffer().getVendor() + "\n");
             result.append("Тип: " + itemInfo.getResult().getOfferMappings().get(0).getOffer().getCategory() + "\n");
@@ -118,6 +121,7 @@ public class YandexServiceImpl implements YandexService {
             result.append("Товар: [" + item.getOfferName() + "](" + link + productId + ")");
             result.append("\nКоличество: " + item.getCount() + "\n\n");
 
+            savePurchase(itemInfo, item.getCount());
         });
 
         String country = "";
@@ -158,6 +162,20 @@ public class YandexServiceImpl implements YandexService {
 
 
         return result.toString();
+    }
+
+    private void savePurchase(YandexItemRsDto itemInfo, Integer count) {
+        try {
+            for (int i = 0; i < count; i++) {
+                purchaseRepository.save(Purchase.builder()
+                        .yandexId(String.valueOf(itemInfo.getResult().getOfferMappings().get(0).getMapping().getMarketModelId()))
+                        .marketplaceCode(YANDEX)
+                        .date(LocalDate.now())
+                        .build());
+            }
+        } catch (Exception e) {
+            log.info("Error saving purchase in YandexService");
+        }
     }
 }
 
