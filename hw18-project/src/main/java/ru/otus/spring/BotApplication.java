@@ -11,9 +11,9 @@ import java.sql.SQLException;
 @SpringBootApplication
 public class BotApplication {
 
-	public static void main(String[] args) throws SQLException {
-		Console.main(args);
-		SpringApplication.run(BotApplication.class, args);
-	}
+    public static void main(String[] args) throws SQLException {
+        Console.main(args);
+        SpringApplication.run(BotApplication.class, args);
+    }
 
 }

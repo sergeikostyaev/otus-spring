@@ -1,10 +1,5 @@
 package ru.otus.spring.bot.impl;
 
-import ru.otus.spring.bot.TelegramBot;
-import ru.otus.spring.configuration.BotConfiguration;
-import ru.otus.spring.service.OzonService;
-import ru.otus.spring.service.WildberriesService;
-import ru.otus.spring.service.YandexService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +8,11 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.otus.spring.bot.TelegramBot;
+import ru.otus.spring.configuration.BotConfiguration;
+import ru.otus.spring.service.OzonService;
+import ru.otus.spring.service.WildberriesService;
+import ru.otus.spring.service.YandexService;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;

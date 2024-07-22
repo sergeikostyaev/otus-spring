@@ -1,15 +1,15 @@
 package ru.otus.spring.webclient.impl;
 
-import ru.otus.spring.configuration.YandexClientConfiguration;
-import ru.otus.spring.dto.YandexItemRqDto;
-import ru.otus.spring.dto.YandexItemRsDto;
-import ru.otus.spring.dto.YandexRsDto;
-import ru.otus.spring.webclient.YandexWebClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import ru.otus.spring.configuration.YandexClientConfiguration;
+import ru.otus.spring.dto.YandexItemRqDto;
+import ru.otus.spring.dto.YandexItemRsDto;
+import ru.otus.spring.dto.YandexRsDto;
+import ru.otus.spring.webclient.YandexWebClientService;
 
 import java.time.LocalDate;
 import java.util.List;

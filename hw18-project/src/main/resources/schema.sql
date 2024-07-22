@@ -9,7 +9,7 @@ create table purchases
     marketplace_code varchar(255),
     name             varchar(255),
     date             varchar(255),
-    region             varchar(255)
+    region           varchar(255)
 );
 
 

@@ -1,10 +1,10 @@
 package ru.otus.spring.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.spring.bot.TelegramBot;
 import ru.otus.spring.dto.WebsiteRqDto;
 import ru.otus.spring.service.WebsiteService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -38,11 +38,11 @@ public class WebsiteServiceImpl implements WebsiteService {
 
         request.getOrders().getCart().getCart().entrySet().forEach(entry -> {
             result.append("[" + entry.getValue().getName() + "](" + link + entry.getValue().getId() + ")" +
-                    " (Цена: " + entry.getValue().getPrice() +"; Количество: " + entry.getValue().getNum() +  "; Артикул: " + entry.getValue().getUid() + ")");
+                    " (Цена: " + entry.getValue().getPrice() + "; Количество: " + entry.getValue().getNum() + "; Артикул: " + entry.getValue().getUid() + ")");
             result.append(", ");
         });
 
-        result.replace(result.length()-2, result.length(), "");
+        result.replace(result.length() - 2, result.length(), "");
         result.append("\n\n");
         result.append("Адрес: " + request.getStreet());
         result.append("\n\n");

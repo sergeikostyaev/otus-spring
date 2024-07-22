@@ -1,12 +1,12 @@
 package ru.otus.spring.webclient.impl;
 
-import ru.otus.spring.configuration.WildberriesClientConfiguration;
-import ru.otus.spring.dto.WildberriesRsDto;
-import ru.otus.spring.webclient.WildberriesWebClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import ru.otus.spring.configuration.WildberriesClientConfiguration;
+import ru.otus.spring.dto.WildberriesRsDto;
+import ru.otus.spring.webclient.WildberriesWebClientService;
 
 import java.time.LocalDate;
 import java.util.Arrays;

@@ -34,7 +34,7 @@ public class RequestFilter implements Filter {
         String authorization = httpServletRequest.getHeader("authorization");
 
         if (Objects.isNull(authorization) || !authorization.equals(token)) {
-            log.info("Website call error: {}", Objects.isNull(authorization) ? "No authorization header" : "Wrong header token: " + "'" + authorization +"'");
+            log.info("Website call error: {}", Objects.isNull(authorization) ? "No authorization header" : "Wrong header token: " + "'" + authorization + "'");
             ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
