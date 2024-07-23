@@ -47,7 +47,7 @@ public class SecurityConfiguration {
                                 new AntPathRequestMatcher(this.adminServer.getContextPath() + "/actuator/**")))
                 .rememberMe(rememberMe -> rememberMe.key(UUID.randomUUID()
                                 .toString())
-                        .tokenValiditySeconds(1209600));
+                        .tokenValiditySeconds(600));
         return http.build();
     }
 
