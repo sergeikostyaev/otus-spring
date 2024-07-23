@@ -3,3 +3,7 @@ server:
 spring:
   application:
     name: "telegram-business-controller-app-monitoring"
+  security:
+    user:
+      name: admin
+      password: password
