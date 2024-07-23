@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface WildberriesWebClientService {
-    public List<WildberriesRsDto> call();
+    List<WildberriesRsDto> call();
 
-    public List<WildberriesRsDto> call(LocalDate period);
+    List<WildberriesRsDto> call(LocalDate period);
 
 
 }
