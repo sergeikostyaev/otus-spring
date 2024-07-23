@@ -13,6 +13,7 @@ spring:
   sql:
     init:
       schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
       mode: always
   boot:
     admin:
@@ -22,6 +23,11 @@ spring:
         auto-registration: true
         instance:
           name: ${spring.application.name}
+          metadata:
+            user.name: admin
+            user.password: password
+        username: admin
+        password: password
 management:
   endpoints:
     web:

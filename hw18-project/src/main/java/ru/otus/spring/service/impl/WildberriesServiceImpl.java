@@ -184,7 +184,7 @@ public class WildberriesServiceImpl implements WildberriesService {
                         .wildberriesId(item.getNmId())
                         .marketplaceCode(WILDBERRIES)
                         .name(NAME_MAP.get(Long.valueOf(item.getSupplierArticle())))
-                        .date(LocalDate.now())
+                        .date(LocalDateTime.now())
                         .region(capitalizeFirstLetter(item.getRegionName()))
                         .build());
             }

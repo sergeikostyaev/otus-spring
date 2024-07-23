@@ -65,20 +65,20 @@ public class TelegramBotImpl extends TelegramLongPollingBot implements TelegramB
         }));
     }
 
-    @PostConstruct
-    private void initWildberriesProcessing() {
-        wildberriesService.initWildberriesProcessing(messageQueue);
-    }
-
-    @PostConstruct
-    private void initYandexProcessing() {
-        yandexService.initYandexProcessing(messageQueue);
-    }
-
-    @PostConstruct
-    private void initOzonProcessing() {
-        ozonService.initOzonProcessing(messageQueue);
-    }
+//    @PostConstruct
+//    private void initWildberriesProcessing() {
+//        wildberriesService.initWildberriesProcessing(messageQueue);
+//    }
+//
+//    @PostConstruct
+//    private void initYandexProcessing() {
+//        yandexService.initYandexProcessing(messageQueue);
+//    }
+//
+//    @PostConstruct
+//    private void initOzonProcessing() {
+//        ozonService.initOzonProcessing(messageQueue);
+//    }
 
     @Override
     public void onUpdateReceived(Update update) {

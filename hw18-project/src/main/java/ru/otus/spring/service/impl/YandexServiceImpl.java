@@ -15,7 +15,11 @@ import ru.otus.spring.webclient.YandexWebClientService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -172,7 +176,7 @@ public class YandexServiceImpl implements YandexService {
                 purchaseRepository.save(Purchase.builder()
                         .yandexId(String.valueOf(itemInfo.getResult().getOfferMappings().get(0).getMapping().getMarketModelId()))
                         .marketplaceCode(YANDEX)
-                        .date(LocalDate.now())
+                        .date(LocalDateTime.now())
                         .name(name)
                         .region(region)
                         .build());

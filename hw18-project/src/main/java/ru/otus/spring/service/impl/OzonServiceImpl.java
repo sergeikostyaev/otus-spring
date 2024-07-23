@@ -68,7 +68,7 @@ public class OzonServiceImpl implements OzonService {
                                 order.getProducts().forEach(product -> purchaseRepository.save(Purchase.builder()
                                         .ozonId(String.valueOf(product.getSku()))
                                         .marketplaceCode(OZON)
-                                        .date(LocalDate.now())
+                                        .date(LocalDateTime.now())
                                         .name(product.getName())
                                         .region(order.getAnalytics_data().getRegion())
                                         .build()));
