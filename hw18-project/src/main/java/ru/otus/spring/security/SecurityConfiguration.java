@@ -26,7 +26,6 @@ public class SecurityConfiguration {
 
     private final AdminServerProperties adminServer;
 
-    private final SecurityProperties security;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
@@ -52,7 +51,7 @@ public class SecurityConfiguration {
                                 new AntPathRequestMatcher(this.adminServer.path("/instances/*"),
                                         HttpMethod.DELETE.toString()),
                                 new AntPathRequestMatcher(this.adminServer.path("/actuator/**"))
-                        )).rememberMe((rememberMe) -> rememberMe.key(UUID.randomUUID().toString()).tokenValiditySeconds(1209600));
+                        )).rememberMe((rememberMe) -> rememberMe.key(UUID.randomUUID().toString()).tokenValiditySeconds(600));
         return http.build();
     }
 
