@@ -1,0 +1,54 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "telegram-business-controller-app"
+  datasource:
+    url: jdbc:h2:mem:testdb
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      mode: always
+  boot:
+    admin:
+      client:
+        url: "http://localhost:9090"
+        enabled: true
+        auto-registration: true
+        instance:
+          name: ${spring.application.name}
+          metadata:
+            user.name: admin
+            user.password: password
+        username: admin
+        password: password
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+bot:
+  name: "Test bot business api"
+  token: "7081767823:AAE2U8DnjgTA1ajXrBrLhBAKi6bvl5LNKHQ"
+marketplace:
+  wildberries:
+    endpoint: "https://statistics-api.wildberries.ru/api/v1/supplier/orders?dateFrom="
+    token: "eyJhbGciOiJFUzI1NiIsImtpZCI6IjIwMjQwNTA2djEiLCJ0eXAiOiJKV1QifQ.eyJlbnQiOjEsImV4cCI6MTczMzk1MzIxNSwiaWQiOiI5NGNjODY1MC00MzE5LTQzZTItOTFmZC1jYjBiNWQzZjljY2MiLCJpaWQiOjI5ODEyOTQ4LCJvaWQiOjE5ODAwNSwicyI6MzIsInNpZCI6IjliMTNmYmVhLTg1ZWEtNGIxYS1hYmQ5LWNmOTlhYjI3MGQwNyIsInQiOmZhbHNlLCJ1aWQiOjI5ODEyOTQ4fQ.KaNWxMvmE8RkShE6g8n6fZePKQbcWJ_0VFTJAhD1iVoME-27DLROCS57Ga7O5OJS83aGUoe6oH4NBSM3TrgUOg"
+  yandex:
+    endpoint: "https://api.partner.market.yandex.ru/campaigns/23421608/orders?fromDate="
+    itemEndpoint: "https://api.partner.market.yandex.ru/businesses/1112308/offer-mappings"
+    token: "y0_AgAAAAAAPKhkAAv0KwAAAAEHgl9UAAD6qv9GWi5FJY38OcWS70PZyVxKpQ"
+  ozon:
+    endpoint: "https://api-seller.ozon.ru/v2/posting/fbo/list"
+    token: "9064cbe1-0f58-447c-b7e7-81b19dbadaba"
+    clientId: "864618"
+  website:
+    token: "sdgjljgogsjgosdjgosdfsdfsdfsdfpsdifsdfpsdfps"
+
+
