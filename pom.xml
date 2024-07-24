@@ -25,9 +25,9 @@
         <module>hw14-springBatch</module>
         <module>hw16-actuator</module>
         <module>hw17-docker</module>
-        <module>hw18-project</module>
-        <module>hw18-project/monitoring-application</module>
-        <module>hw18-project/bot-application</module>
+        <module>hw19-project</module>
+        <module>hw19-project/monitoring-application</module>
+        <module>hw19-project/bot-application</module>
     </modules>
 
     <name>otus-spring</name>
