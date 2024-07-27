@@ -16,10 +16,17 @@ import ru.otus.spring.repository.AuthorRepository;
 import ru.otus.spring.repository.BookRepository;
 import ru.otus.spring.repository.CommentRepository;
 import ru.otus.spring.repository.GenreRepository;
+import ru.otus.spring.repository.mongo.AuthorMongoRepository;
+import ru.otus.spring.repository.mongo.BookMongoRepository;
+import ru.otus.spring.repository.mongo.CommentMongoRepository;
+import ru.otus.spring.repository.mongo.GenreMongoRepository;
 import ru.otus.spring.service.LibraryService;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static java.util.Objects.isNull;
 
 
 @Service
@@ -33,6 +40,14 @@ public class LibraryServiceImpl implements LibraryService {
     private final AuthorRepository authorRepository;
 
     private final CommentRepository commentRepository;
+
+    private final BookMongoRepository bookMongoRepository;
+
+    private final AuthorMongoRepository authorMongoRepository;
+
+    private final GenreMongoRepository genreMongoRepository;
+
+    private final CommentMongoRepository commentMongoRepository;
 
     private final ModelMapper<Book, BookDto> bookMapper;
 
@@ -99,16 +114,31 @@ public class LibraryServiceImpl implements LibraryService {
         return authorRepository.findAll().stream().map(authorMapper::toDto).collect(Collectors.toList());
     }
 
-    public BookDto bookFallback(Exception ex) {
-        return BookDto.builder()
-                .name("UNKNOWN")
-                .build();
+    public BookDto bookFallback(Long id, Exception ex) {
+
+        var book = bookMongoRepository.findBySystemId(id);
+        if (isNull(book)) {
+            return BookDto.builder()
+                    .name("UNKNOWN")
+                    .build();
+        } else {
+            var author = authorMongoRepository.findBySystemId(book.getAuthorId());
+            var genre = genreMongoRepository.findBySystemId(book.getAuthorId());
+            return BookDto.builder()
+                    .name(book.getName())
+                    .author(AuthorDto.builder().name(isNull(author) ? "UNKNOWN" : author.getName()).build())
+                    .genre(GenreDto.builder().name(isNull(genre) ? "UNKNOWN" : genre.getName()).build())
+                    .build();
+        }
     }
 
     public List<BookDto> bookListFallback(Exception ex) {
-        return List.of(BookDto.builder()
+        var books = StreamSupport.stream(bookMongoRepository.findAll().spliterator(), false).toList();
+        return books.isEmpty() ? List.of(BookDto.builder()
                 .name("UNKNOWN")
-                .build());
+                .build()) : books.stream().map(book -> BookDto.builder()
+                .name(book.getName())
+                .build()).collect(Collectors.toList());
     }
 
     public CommentDto commentFallback(Exception ex) {
@@ -117,21 +147,28 @@ public class LibraryServiceImpl implements LibraryService {
                 .build();
     }
 
-    public List<CommentDto> commentListFallback(Exception ex) {
-        return List.of(CommentDto.builder()
+    public List<CommentDto> commentListFallback(Long id, Exception ex) {
+        var comment = commentMongoRepository.findByBookId(id);
+        return isNull(comment) ? List.of(CommentDto.builder()
                 .comment("UNKNOWN")
-                .build());
+                .build()) : comment.stream().map(c -> CommentDto
+                        .builder()
+                        .comment(c.getComment())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public List<GenreDto> genreListFallback(Exception ex) {
-        return List.of(GenreDto.builder()
+        var genres = StreamSupport.stream(genreMongoRepository.findAll().spliterator(), false).toList();
+        return genres.isEmpty() ? List.of(GenreDto.builder()
                 .name("UNKNOWN")
-                .build());
+                .build()) : genres.stream().map(g -> GenreDto.builder().name(g.getName()).build()).toList();
     }
 
     public List<AuthorDto> authorListFallback(Exception ex) {
-        return List.of(AuthorDto.builder()
+        var authors = StreamSupport.stream(authorMongoRepository.findAll().spliterator(), false).toList();
+        return authors.isEmpty() ? List.of(AuthorDto.builder()
                 .name("UNKNOWN")
-                .build());
+                .build()) : authors.stream().map(a -> AuthorDto.builder().name(a.getName()).build()).collect(Collectors.toList());
     }
 }

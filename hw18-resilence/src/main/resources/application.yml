@@ -1,6 +1,11 @@
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:8081/test?authSource=admin
+      password: "root"
+      username: "root"
   jpa:
     generate-ddl: false
     hibernate:
