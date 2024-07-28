@@ -1,4 +1,4 @@
-package ru.otus.spring;
+package ru.otus.spring.controller;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest
-public class LibraryMvcControllerTest {
+public class LibraryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
