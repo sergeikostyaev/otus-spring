@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Butterfly;
 import ru.otus.spring.domain.Worm;
+import ru.otus.spring.services.ButterflyService;
 import ru.otus.spring.services.LifecycleGateway;
 
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ButterflyService implements ru.otus.spring.services.ButterflyService {
+public class ButterflyServiceImpl implements ButterflyService {
     private static final List<String> COLOURS = List.of("Blue", "Red", "Yellow");
 
     private final LifecycleGateway gateway;
