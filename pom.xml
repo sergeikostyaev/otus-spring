@@ -25,6 +25,7 @@
     <module>hw16-actuator</module>
     <module>hw17-docker</module>
       <module>hw18-resilence</module>
+      <module>hw15-integration</module>
   </modules>
 
   <name>otus-spring</name>
