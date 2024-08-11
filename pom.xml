@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
 
     <groupId>spring.course</groupId>
     <artifactId>otus-spring</artifactId>
@@ -23,13 +23,13 @@
         <module>hw12-librarySpringSecurity</module>
         <module>hw13-libraryAuthorizaton</module>
         <module>hw14-springBatch</module>
+      <module>hw15-integration</module>
         <module>hw16-actuator</module>
         <module>hw17-docker</module>
         <module>hw19-project</module>
         <module>hw19-project/monitoring-application</module>
         <module>hw19-project/bot-application</module>
     </modules>
-
     <name>otus-spring</name>
 
     <properties>
